@@ -1,0 +1,11 @@
+{
+  "configuration" : {
+    "server": {
+      "port": 3000
+    },
+    "database": {
+      "host": "mongodb://localhost:27017",
+      "name": "portfolio"
+    }
+  }
+}

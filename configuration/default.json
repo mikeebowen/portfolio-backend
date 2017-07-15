@@ -1,0 +1,15 @@
+{
+  "configuration" : {
+    "server": {
+      "port": 3000
+    },
+    "database": {
+      "host": "mongodb://localhost:27017",
+      "name": "portfolio_dev"
+    },
+    "corsOptions": {
+      "origin": "http://localhost:4200",
+      "optionsSuccessStatus": 200
+    }
+  }
+}
