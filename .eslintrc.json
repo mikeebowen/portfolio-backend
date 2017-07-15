@@ -11,27 +11,13 @@
     "linebreak-style": ["error", "unix"],
     "max-len": ["error", 140, { "ignoreUrls": true, "ignoreStrings": true }],
     "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
-    "no-console": [
-      "warn",
-      { "allow": ["warn", "error"] }
-    ],
-    "no-multiple-empty-lines": [
-      2,
-      { "max": 2, "maxEOF": 1 }
-    ],
-    "no-unused-vars": [
-      "error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-    ],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-multiple-empty-lines": [2, { "max": 2, "maxEOF": 1 }],
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     "object-curly-spacing": ["error", "always"],
-    "prefer-const": [
-      "error", {
-        "destructuring": "any",
-        "ignoreReadBeforeAssign": false
-      }
-    ],
+    "prefer-const": ["error", { "destructuring": "any", "ignoreReadBeforeAssign": false }],
     "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "strict": 2
+    "semi": ["error", "always"], "strict": 2
   },
   "plugins": ["standard", "promise"]
 }
