@@ -46,7 +46,7 @@ describe('uploadFile', function () {
     };
     const req = {
       body: {
-        base64String: 'aGVsbG8gd29ybGQ=',
+        base64String: 'data:image/png;base64,aGVsbG8gd29ybGQ=',
         fileName: 'testName.png'
       }
     };
@@ -61,11 +61,10 @@ describe('uploadFile', function () {
 
     uploadFile(req, res, () => {
     });
-    setTimeout(() => {
-      expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.equal('/home/michael/Repositories/portfolio-backend/uploads/testName.png');
-      expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
-      done();
-    }, 500);
+
+    expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.contain('/portfolio-backend/uploads/testName.png');
+    expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
+    done();
   });
 
   it('should call res.json when file is written successfully', function (done) {
@@ -105,8 +104,7 @@ describe('uploadFile', function () {
     const expressErrorHandlerSpy = sinon.spy();
     const pathStub = {
       join: () => {
-        return () => {
-        };
+        return () => {};
       }
     };
 
