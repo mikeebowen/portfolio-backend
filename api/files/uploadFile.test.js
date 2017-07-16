@@ -61,9 +61,11 @@ describe('uploadFile', function () {
 
     uploadFile(req, res, () => {
     });
-    expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.equal('/home/michael/Repositories/portfolio-backend/uploads/testName.png');
-    expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
-    done();
+    setTimeout(() => {
+      expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.equal('/home/michael/Repositories/portfolio-backend/uploads/testName.png');
+      expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
+      done();
+    }, 100);
   });
 
   it('should call res.json when file is written successfully', function (done) {
@@ -103,7 +105,8 @@ describe('uploadFile', function () {
     const expressErrorHandlerSpy = sinon.spy();
     const pathStub = {
       join: () => {
-        return () => {};
+        return () => {
+        };
       }
     };
 
