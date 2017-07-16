@@ -46,7 +46,7 @@ describe('uploadFile', function () {
     };
     const req = {
       body: {
-        base64String: 'data:image/png;base64,aGVsbG8gd29ybGQ=',
+        base64String: 'aGVsbG8gd29ybGQ=',
         fileName: 'testName.png'
       }
     };
@@ -65,7 +65,7 @@ describe('uploadFile', function () {
       expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.equal('/home/michael/Repositories/portfolio-backend/uploads/testName.png');
       expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
       done();
-    }, 100);
+    }, 500);
   });
 
   it('should call res.json when file is written successfully', function (done) {
