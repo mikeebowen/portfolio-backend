@@ -85,7 +85,7 @@ describe('errorHandler', function () {
 
     errorHandler(testError);
 
-    expect(fsStub.writeFile.calledWith(logFilePath, 'portfolio log file\n')).to.equal(true);
+    expect(fsStub.writeFile.called).to.equal(true);
     done();
   });
 
