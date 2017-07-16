@@ -8,7 +8,8 @@
     "docs": "./node_modules/.bin/rimraf out_apidoc/ out/ && ./node_modules/.bin/apidoc -i api/ -o out_apidoc/ && ./node_modules/.bin/jsdoc api/ lib/ -r README.md",
     "start": "node server.js",
     "test": "nyc ./node_modules/.bin/mocha --recursive api/**/*.test.js lib/**/*.test.js local_modules/**/*.test.js && nyc report --reporter=text-lcov | coveralls -service = travis-ci",
-    "mongod": "./node_modules/.bin/mongod --dbpath=./data"
+    "mongod": "./node_modules/.bin/mongod --dbpath=./data",
+    "dev": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -21,11 +22,13 @@
   },
   "homepage": "https://github.com/mrbgit/portfolio-backend#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cli-color": "^1.2.0",
     "compression": "^1.7.0",
     "config": "^1.26.1",
     "cors": "^2.8.4",
     "express": "^4.15.3",
+    "file-type": "^5.2.0",
     "local-error-handler": "file:local_modules/local-error-handler",
     "local-express-error-handler": "file:local_modules/local-express-error-handler",
     "moment": "^2.18.1",

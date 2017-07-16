@@ -9,6 +9,7 @@ const cors = require('cors');
 const moment = require('moment');
 const mongoose = require('mongoose');
 const winston = require('winston');
+const bodyParser = require('body-parser');
 
 const apiRoutes = require('./api/routes');
 const catchAllEndpoint = require('./lib/catchAllEndpoint');
@@ -34,6 +35,7 @@ mongoose.connect(mongoUri, { useMongoClient: true })
 
 app.use(cors(corsOptions));
 app.use(compression());
+app.use(bodyParser.json());
 app.use('/api', apiRoutes);
 app.use('*', catchAllEndpoint);
 
