@@ -8,7 +8,7 @@ const expressErrorHandler = require('local-express-error-handler');
 
 const uploadsFilePath = path.join(__dirname, '..', '..', 'uploads');
 
-function uploadFile(req, res, next) {
+function postFile(req, res, next) {
 
   if (!req.body.base64String) {
     res.status(400);
@@ -30,4 +30,4 @@ function uploadFile(req, res, next) {
   }
 }
 
-module.exports = uploadFile;
+module.exports = postFile;

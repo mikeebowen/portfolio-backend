@@ -2,8 +2,8 @@
 
 const router = require('express').Router();
 
-const uploadFile = require('./uploadFile');
+const postFile = require('./postFile');
 
-router.post('/', uploadFile);
+router.post('/', postFile);
 
 module.exports = router;

@@ -104,7 +104,8 @@ describe('uploadFile', function () {
     const expressErrorHandlerSpy = sinon.spy();
     const pathStub = {
       join: () => {
-        return () => {};
+        return () => {
+        };
       }
     };
 
