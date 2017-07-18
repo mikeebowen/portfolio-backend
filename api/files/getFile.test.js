@@ -71,4 +71,40 @@ describe('getFile', function () {
       done();
     });
   });
+
+  it('should call the errorHandler when an error is returned', function (done) {
+
+    const req = {
+      params: {
+        fileName: 'tuna.js'
+      },
+      body: {
+        base64String: 'ba',
+        fileName: 'testName.png'
+      }
+    };
+    const expressErrorHandlerSpy = sinon.spy();
+    const pathStub = {
+      join: () => {
+        return '/fake/path'
+      }
+    };
+
+    function fileTypeSub() {
+      return { ext: '.png' };
+    }
+
+    // tslint:disable-next-line:prefer-const
+    let getFile = proxyquire('./getFile', {
+      'file-type': fileTypeSub,
+      'local-express-error-handler': expressErrorHandlerSpy,
+      'path': pathStub
+    });
+
+    getFile(req, {});
+    setTimeout(() => {
+      expect(expressErrorHandlerSpy.called).to.equal(true);
+      done();
+    }, 100);
+  });
 });

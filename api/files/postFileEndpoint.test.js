@@ -53,4 +53,29 @@ describe('postFileEndpoint', () => {
       .catch(err => done(err) );
   });
 
+  it('should send the error message and status status when errors are included', (done) => {
+
+    const req = {
+      reqObj: {
+        status: 444,
+        errors: [ {
+          state: 'of mind',
+          needs: 'tacos'
+        } ]
+      }
+    };
+
+    const res = {
+      json: sinon.spy(),
+      status: sinon.spy()
+    };
+
+    Promise.resolve(postFileEndpoint(req, res))
+      .then(() => {
+        expect(res.status.calledWith(444), 'did not set status when returnVal.status was included').to.equal(true);
+        expect(res.json.calledWith(req.reqObj), 'did not send data when returnVal.data was included ').to.equal(true);
+        done();
+      })
+      .catch(err => done(err) );
+  });
 });

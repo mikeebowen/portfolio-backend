@@ -13,6 +13,7 @@ function serveImage(req, res, next) {
   } else {
 
     fs.readdir(pathToFilesFolder, (err, files) => {
+      /* istanbul ignore if */
       if (err) {
         expressErrorHandler(err, req, res, next);
       } else {
