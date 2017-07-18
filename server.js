@@ -10,6 +10,7 @@ const moment = require('moment');
 const mongoose = require('mongoose');
 const winston = require('winston');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const apiRoutes = require('./api/routes');
 const catchAllEndpoint = require('./lib/catchAllEndpoint');
@@ -21,6 +22,7 @@ const corsOptions = configuration.corsOptions;
 const mongoUri = `${configuration.database.host}/${configuration.database.name}`;
 const port = configuration.server.port;
 const serverStartTime = moment(new Date()).format('LLLL');
+const pathToFiles = path.join('.', 'uploads');
 
 mongoose.Promise = Promise;
 mongoose.connect(mongoUri, { useMongoClient: true })
@@ -35,7 +37,9 @@ mongoose.connect(mongoUri, { useMongoClient: true })
 
 app.use(cors(corsOptions));
 app.use(compression());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(express.static(pathToFiles));
 app.use('/api', apiRoutes);
 app.use('*', catchAllEndpoint);
 

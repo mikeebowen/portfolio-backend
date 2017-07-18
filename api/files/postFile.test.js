@@ -4,17 +4,13 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
-describe('uploadFile', function () {
+describe('postFile', function () {
 
   it('should set status to 400 and { error: \'required fields missing\' } when base64String is not included in body', function (done) {
     const fsStub = {
       writeFile: sinon.spy()
     };
 
-    const res = {
-      status: sinon.spy(),
-      json: sinon.spy()
-    };
     const req = {
       body: {
         // base64String: 'data:image/png;base64,aGVsbG8gd29ybGQ=',
@@ -27,13 +23,17 @@ describe('uploadFile', function () {
     }
 
     // tslint:disable-next-line:prefer-const
-    let uploadFile = proxyquire('./uploadFile', { 'fs': fsStub, 'file-type': fileTypeSub });
+    let postFile = proxyquire('./postFile', { 'fs': fsStub, 'file-type': fileTypeSub });
 
-    uploadFile(req, res, () => {
+    postFile(req, {}, () => {
+      expect(req.reqObj).to.deep.equal({
+        errors: [ {
+          error: 'required fields missing',
+          status: 400
+        } ]
+      });
+      done();
     });
-    expect(res.json.calledWith({ error: 'required fields missing' })).to.equal(true);
-    expect(res.status.calledWith(400)).to.equal(true);
-    done();
   });
 
   it('should call writeFile if all fields are provided', function (done) {
@@ -57,9 +57,9 @@ describe('uploadFile', function () {
     }
 
     // tslint:disable-next-line:prefer-const
-    let uploadFile = proxyquire('./uploadFile', { 'fs': fsStub, 'file-type': fileTypeSub });
+    let postFile = proxyquire('./postFile', { 'fs': fsStub, 'file-type': fileTypeSub });
 
-    uploadFile(req, res, () => {
+    postFile(req, res, () => {
     });
 
     expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.contain('/portfolio-backend/uploads/testName.png');
@@ -67,11 +67,8 @@ describe('uploadFile', function () {
     done();
   });
 
-  it('should call res.json when file is written successfully', function (done) {
-
-    const res = {
-      json: sinon.spy()
-    };
+  it('should call set the correct values on req.reqObj when file is written successfully', function (done) {
+    const res = {};
     const req = {
       body: {
         base64String: 'data:image/png;base64,aGVsbG8gd29ybGQ=',
@@ -84,13 +81,22 @@ describe('uploadFile', function () {
     }
 
     // tslint:disable-next-line:prefer-const
-    let uploadFile = proxyquire('./uploadFile', { 'file-type': fileTypeSub });
+    let postFile = proxyquire('./postFile', { 'file-type': fileTypeSub });
 
-    uploadFile(req, res);
-    setTimeout(() => {
-      expect(res.json.called).to.equal(true);
+    postFile(req, res, () => {
+      expect(req.reqObj).to.deep.equal({
+        'data': {
+          'type': 'fileInfo',
+          'attributes': {
+            'name': 'testName.png',
+            'message': 'file successfully uploaded',
+            'path': '/api/files/testName.png'
+          }
+        },
+        'status': 201
+      });
       done();
-    }, 100);
+    });
   });
 
   it('should call the errorHandler when an error is returned', function (done) {
@@ -114,13 +120,13 @@ describe('uploadFile', function () {
     }
 
     // tslint:disable-next-line:prefer-const
-    let uploadFile = proxyquire('./uploadFile', {
+    let postFile = proxyquire('./postFile', {
       'file-type': fileTypeSub,
       'local-express-error-handler': expressErrorHandlerSpy,
       'path': pathStub
     });
 
-    uploadFile(req, {});
+    postFile(req, {});
     setTimeout(() => {
       expect(expressErrorHandlerSpy.called).to.equal(true);
       done();
