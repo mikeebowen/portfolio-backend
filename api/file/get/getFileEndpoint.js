@@ -5,7 +5,7 @@
 
 const path = require('path');
 
-const pathToFilesFolder = path.join(__dirname, '..', '..', 'uploads');
+const pathToFilesFolder = path.join(__dirname, '..', '..', '..', 'uploads');
 
 /**
  * endpoint for retrieving file
