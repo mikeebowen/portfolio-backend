@@ -4,7 +4,7 @@
  */
 
 /**
- * endpoint for posting files
+ * endpoint for posting file
  * @function hotMealEndPoints
  * @param {Object} req - the express request object
  * @param {Object} res - the express response object

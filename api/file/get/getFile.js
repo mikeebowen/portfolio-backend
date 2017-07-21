@@ -1,12 +1,21 @@
 'use strict';
-
+/**
+ *@module files
+ */
 const fs = require('fs');
 const path = require('path');
 
 const expressErrorHandler = require('local-express-error-handler');
 
-const pathToFilesFolder = path.join(__dirname, '..', '..', 'uploads');
+const pathToFilesFolder = path.join(__dirname, '..', '..', '..', 'uploads');
 
+/**
+ * method to serve image
+ * @function serveImage
+ * @param {Object} req - express request object, must contain params object with the key fileName that contains the name of the file found as a string
+ * @param {Object} res - express response object
+ * @param {Function} next - express callback
+ */
 function serveImage(req, res, next) {
   if(!req.params.fileName) {
     next();

@@ -62,7 +62,7 @@ describe('postFile', function () {
     postFile(req, res, () => {
     });
 
-    expect(fsStub.writeFile.args[ 0 ][ 0 ]).to.contain('/portfolio-backend/uploads/testName.png');
+    expect(fsStub.writeFile.args[ 0 ][ 0 ].toString()).to.contain('/uploads/testName.png');
     expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
     done();
   });
@@ -90,7 +90,7 @@ describe('postFile', function () {
           'attributes': {
             'name': 'testName.png',
             'message': 'file successfully uploaded',
-            'path': '/api/files/testName.png'
+            'path': '/api/file/testName.png'
           }
         },
         'status': 201

@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * @module files
+ */
 
 const path = require('path');
 const fs = require('fs');
@@ -6,8 +9,15 @@ const fileType = require('file-type');
 
 const expressErrorHandler = require('local-express-error-handler');
 
-const uploadsFilePath = path.join(__dirname, '..', '..', 'uploads');
-// TODO add documentation to postFile function
+const uploadsFilePath = path.join(__dirname, '..', '..', '..', 'uploads');
+
+/**
+ * posts a file to database
+ * @function postFile
+ * @param {Object} req - the request object, must contain body with a base64 string of the file to be saved with the key: base64String
+ * @param {Object} res - the express response object
+ * @param {Function} next - the express middleware callback
+ */
 function postFile(req, res, next) {
 
   if (!req.body.base64String) {
@@ -35,7 +45,7 @@ function postFile(req, res, next) {
             'attributes': {
               'name': 'testName.png',
               'message': 'file successfully uploaded',
-              'path': `/api/files/${fileName}`
+              'path': `/api/file/${fileName}`
             }
           },
           'status': 201

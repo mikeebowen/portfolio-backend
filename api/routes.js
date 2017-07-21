@@ -2,8 +2,8 @@
 
 const router = require('express').Router();
 
-const fileRoutes = require('./files/fileRoutes');
+const fileRoutes = require('./file/fileRoutes');
 
-router.use('/files', fileRoutes);
+router.use('/file', fileRoutes);
 
 module.exports = router;
