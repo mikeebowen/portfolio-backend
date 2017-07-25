@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/mrbgit/portfolio-backend#readme",
   "dependencies": {
+    "@types/mongoose": "^4.7.19",
     "body-parser": "^1.17.2",
     "cli-color": "^1.2.0",
     "compression": "^1.7.0",
@@ -45,6 +46,7 @@
     "coveralls": "^2.13.1",
     "jsdoc": "^3.5.3",
     "mocha": "^3.4.2",
+    "mockgoose": "^7.3.3",
     "nyc": "^11.0.3",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
