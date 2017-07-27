@@ -13,6 +13,7 @@ describe('ContentItem Model', function() {
   this.timeout(120000);
 
   before(function(done) {
+    this.timeout(120000);
 
     mockgoose.prepareStorage().then(() => {
       mongoose.connect('mongodb://example.com/TestingDB', (err) => {
@@ -61,6 +62,7 @@ describe('ContentItem Model', function() {
 
   // restoring everything back
   after( (done) => {
+    this.timeout(120000);
 
     mockgoose.prepareStorage()
       .then(() => {
