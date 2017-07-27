@@ -16,8 +16,7 @@ describe('ContentItem Model', function() {
 
     mockgoose.prepareStorage().then(() => {
       mongoose.connect('mongodb://example.com/TestingDB', (err) => {
-        if (err) done(err);
-        done();
+        done(err);
       });
     });
   });
@@ -53,7 +52,7 @@ describe('ContentItem Model', function() {
 
     testContentItem.save((err, item) => {
       expect(err).to.not.exist;
-      expect(item.uniqueTitle).to.contain('gulliver+s+travels-');
+      expect(item.uniqueTitle).to.contain('gulliver-s-travels-');
       expect(item.uniqueTitle.length).to.equal(32);
       done();
     });
@@ -66,8 +65,7 @@ describe('ContentItem Model', function() {
       .then(() => {
         mockgoose.helper.reset().then(() => {
           mongoose.connection.close((err) => {
-            if (err) done(err);
-            done();
+            done(err);
           });
         });
       });

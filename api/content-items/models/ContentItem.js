@@ -23,7 +23,7 @@ const contentItemSchema = mongoose.Schema({
 });
 
 contentItemSchema.virtual('uniqueTitle').get(function () {
-  return `${this.title.toLowerCase().toString().replace(/[^a-z0-9+]+/gi, '+')}-${this.uniqueTitleKey}`;
+  return `${this.title.toLowerCase().toString().replace(/[^a-z0-9+]+/gi, '-')}-${this.uniqueTitleKey}`;
 });
 
 module.exports = mongoose.model('ContentItem', contentItemSchema);
