@@ -18,7 +18,8 @@ describe('ContentItem Model', function() {
       mongoose.connect('mongodb://example.com/TestingDB', (err) => {
         done(err);
       });
-    });
+    })
+      .catch(err => done(err));
   });
 
   it('should require title', function (done) {
@@ -64,9 +65,10 @@ describe('ContentItem Model', function() {
     mockgoose.prepareStorage()
       .then(() => {
         mockgoose.helper.reset().then(() => {
-          mongoose.connection.close((err) => {
-            done(err);
-          });
+          mongoose.connection.close(() => {
+            done();
+          })
+            .catch(err => done(err));
         });
       });
   });
