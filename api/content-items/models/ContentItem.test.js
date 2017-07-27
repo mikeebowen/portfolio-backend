@@ -14,12 +14,11 @@ describe('ContentItem Model', function() {
 
   before(function(done) {
 
-    mockgoose.prepareStorage().then(() => {
-      mongoose.connect('mongodb://example.com/TestingDB', (err) => {
+    mockgoose.prepareStorage().then(function() {
+      mongoose.connect('mongodb://example.com/TestingDB', function(err) {
         done(err);
       });
-    })
-      .catch(err => done(err));
+    });
   });
 
   it('should require title', function (done) {
