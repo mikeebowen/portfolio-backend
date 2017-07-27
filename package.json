@@ -46,7 +46,7 @@
     "coveralls": "^2.13.1",
     "jsdoc": "^3.5.3",
     "mocha": "^3.4.2",
-    "mockgoose": "7.1.1",
+    "mockgoose": "^7.3.3",
     "nyc": "^11.1.0",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
