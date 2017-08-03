@@ -53,7 +53,7 @@ describe('postContentItem', function () {
     postContentItem(req, {}, (err) => {
       expect(err).not.to.exist;
 
-      expect(req.responseData).to.deep.equal({
+      expect(req.reqObj).to.deep.equal({
         'data': {
           'type': 'Message',
           'attributes': {

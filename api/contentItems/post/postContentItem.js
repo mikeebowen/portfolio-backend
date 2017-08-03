@@ -9,7 +9,7 @@ function postContentItem(req, res, next) {
 
   ContentItem.create(contentItem)
     .then(newContentItem => {
-      req.responseData = {
+      req.reqObj = {
         'data': {
           'type': 'Message',
           'attributes': {
