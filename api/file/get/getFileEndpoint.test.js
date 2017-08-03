@@ -16,17 +16,21 @@ describe('getFileEndPoint', function () {
 
     Promise.resolve(getFileEndpoint(req, res))
       .then(() => {
-        expect(res.status.calledWith(404)).to.equal(true);
+        expect(res.status.calledWith(404))
+          .to
+          .equal(true);
         expect(res.json.calledWith(sinon.match({
-          errors: [ {
+          errors: [{
             error: 'no file found',
             status: 404
-          } ]
-        }))).to.equal(true);
+          }]
+        })))
+          .to
+          .equal(true);
 
         done();
       })
-      .catch(err  => done(err));
+      .catch(err => done(err));
   });
 
   it('should call res.sendFile with the path to the fileName param', function (done) {
@@ -41,10 +45,12 @@ describe('getFileEndPoint', function () {
 
     Promise.resolve(getFileEndpoint(req, res))
       .then(() => {
-        expect(res.status.calledWith(200)).to.equal(true);
+        expect(res.status.calledWith(200))
+          .to
+          .equal(true);
         expect(res.sendFile.calledWith(`/something/${req.fileName}`));
         done();
       })
       .catch(err => done(err));
-  })
+  });
 });

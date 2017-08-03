@@ -19,11 +19,12 @@ describe('postContentItem', function () {
   before(function (done) {
     this.timeout(120000);
 
-    mockgoose.prepareStorage().then(function () {
-      mongoose.connect('mongodb://example.com/TestingDB', function (err) {
-        done(err);
+    mockgoose.prepareStorage()
+      .then(function () {
+        mongoose.connect('mongodb://example.com/TestingDB', function (err) {
+          done(err);
+        });
       });
-    });
   });
 
   it('should save a new content item and ignore extra values and call next', function (done) {
@@ -53,26 +54,47 @@ describe('postContentItem', function () {
     postContentItem(req, {}, (err) => {
       expect(err).not.to.exist;
 
-      expect(req.reqObj).to.deep.equal({
-        'data': {
-          'type': 'Message',
-          'attributes': {
-            'message': `Test Post successfully saved`
-          }
-        },
-        'status': 200
-      });
+      expect(req.reqObj)
+        .to
+        .deep
+        .equal({
+          'data': {
+            'type': 'Message',
+            'attributes': {
+              'message': `Test Post successfully saved`
+            }
+          },
+          'status': 200
+        });
 
-      ContentItem.findOne({author: 'Testy Testerson'})
+      ContentItem.findOne({ author: 'Testy Testerson' })
         .then(foundContentItem => {
-          expect(foundContentItem.title).to.equal(trimmedContentItem.title);
-          expect(foundContentItem.subtitle).to.equal(trimmedContentItem.subtitle);
-          expect(foundContentItem.author).to.equal(trimmedContentItem.author);
-          expect(foundContentItem.contentItem).to.equal(trimmedContentItem.contentItem);
-          expect(foundContentItem.postType).to.equal(trimmedContentItem.postType);
-          expect(foundContentItem.description).to.equal(trimmedContentItem.description);
-          expect(foundContentItem.image.src).to.deep.equal(trimmedContentItem.image.src);
-          expect(foundContentItem.image.name).to.deep.equal(trimmedContentItem.image.name);
+          expect(foundContentItem.title)
+            .to
+            .equal(trimmedContentItem.title);
+          expect(foundContentItem.subtitle)
+            .to
+            .equal(trimmedContentItem.subtitle);
+          expect(foundContentItem.author)
+            .to
+            .equal(trimmedContentItem.author);
+          expect(foundContentItem.contentItem)
+            .to
+            .equal(trimmedContentItem.contentItem);
+          expect(foundContentItem.postType)
+            .to
+            .equal(trimmedContentItem.postType);
+          expect(foundContentItem.description)
+            .to
+            .equal(trimmedContentItem.description);
+          expect(foundContentItem.image.src)
+            .to
+            .deep
+            .equal(trimmedContentItem.image.src);
+          expect(foundContentItem.image.name)
+            .to
+            .deep
+            .equal(trimmedContentItem.image.name);
           expect(foundContentItem.shouldIgnorethis).to.not.exist;
           expect(foundContentItem.andThis).to.not.exist;
 
@@ -98,10 +120,18 @@ describe('postContentItem', function () {
       }
     };
     const expressErrorHandlerSpy = (err, req, res, next) => {
-      expect(err).to.equal(testError);
-      expect(req).to.equal(req);
-      expect(res).to.equal(res);
-      expect(next.called).to.equal(false);
+      expect(err)
+        .to
+        .equal(testError);
+      expect(req)
+        .to
+        .equal(req);
+      expect(res)
+        .to
+        .equal(res);
+      expect(next.called)
+        .to
+        .equal(false);
       done();
     };
     let postContentItem = proxyquire('./postContentItem', {
@@ -118,7 +148,8 @@ describe('postContentItem', function () {
     this.timeout(120000);
     mockgoose.prepareStorage()
       .then(() => {
-        mockgoose.helper.reset().then(() => {
+        mockgoose.helper.reset()
+          .then(() => {
             mongoose.connection.close((err) => {
               if (err) done(err);
               done();

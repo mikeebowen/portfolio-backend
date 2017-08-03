@@ -22,15 +22,16 @@ function postFile(req, res, next) {
 
   if (!req.body.base64String) {
     req.reqObj = {
-      errors: [ {
+      errors: [{
         error: 'required fields missing',
         status: 400
-      } ]
+      }]
     };
 
     next();
   } else {
-    const base64String = req.body.base64String.split(';base64,').pop();
+    const base64String = req.body.base64String.split(';base64,')
+      .pop();
     const imageBuffer = Buffer.from(base64String, 'base64');
     const fileExtension = fileType(imageBuffer).ext;
     const fileName = req.body.fileName ? req.body.fileName : `file-${Date.now()}.${fileExtension}`;

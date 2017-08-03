@@ -11,7 +11,7 @@ describe('getFile', function () {
   it('should return an image file if one is found', function (done) {
     const fsStub = {
       readdir: function (path, callback) {
-        callback(null, [ 'another-fake-image.jpg', 'test-image.jpg' ]);
+        callback(null, ['another-fake-image.jpg', 'test-image.jpg']);
       }
     };
     let getFile = proxyquire('./getFile', { 'fs': fsStub });
@@ -24,7 +24,9 @@ describe('getFile', function () {
     getFile(req, {}, (err) => {
       if (err) done(err);
       expect(err).to.not.exist;
-      expect(req.fileName).to.equal('test-image.jpg');
+      expect(req.fileName)
+        .to
+        .equal('test-image.jpg');
       done();
     });
   });
@@ -32,7 +34,7 @@ describe('getFile', function () {
   it('should not set req.fileName when no image is found', function (done) {
     const fsStub = {
       readdir: function (path, callback) {
-        callback(null, [ 'another-fake-image.jpg', 'test-image.jpg' ]);
+        callback(null, ['another-fake-image.jpg', 'test-image.jpg']);
       }
     };
     let getFile = proxyquire('./getFile', { 'fs': fsStub });
@@ -54,7 +56,7 @@ describe('getFile', function () {
   it('should not set req.fileName when no params are included', function (done) {
     const fsStub = {
       readdir: function (path, callback) {
-        callback(null, [ 'another-fake-image.jpg', 'test-image.jpg' ]);
+        callback(null, ['another-fake-image.jpg', 'test-image.jpg']);
       }
     };
     let getFile = proxyquire('./getFile', { 'fs': fsStub });
@@ -103,7 +105,9 @@ describe('getFile', function () {
 
     getFile(req, {});
     setTimeout(() => {
-      expect(expressErrorHandlerSpy.called).to.equal(true);
+      expect(expressErrorHandlerSpy.called)
+        .to
+        .equal(true);
       done();
     }, 100);
   });

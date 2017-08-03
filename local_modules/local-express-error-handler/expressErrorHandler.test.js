@@ -26,10 +26,18 @@ describe('expressErrorHandler', function () {
     };
 
     expressErrorHandler(testError, {}, res, nextSpy);
-    expect(errorHandlerStub.calledWith(testError)).to.equal(true);
-    expect(res.status.calledWith(420)).to.equal(true);
-    expect(res.json.called).to.equal(true);
-    expect(res.json.calledWith(sinon.match({ error: 'test error' }))).to.equal(true);
+    expect(errorHandlerStub.calledWith(testError))
+      .to
+      .equal(true);
+    expect(res.status.calledWith(420))
+      .to
+      .equal(true);
+    expect(res.json.called)
+      .to
+      .equal(true);
+    expect(res.json.calledWith(sinon.match({ error: 'test error' })))
+      .to
+      .equal(true);
     done();
 
   });
@@ -47,10 +55,18 @@ describe('expressErrorHandler', function () {
     };
 
     expressErrorHandler(testError, {}, res, nextSpy);
-    expect(errorHandlerStub.calledWith(testError)).to.equal(true);
-    expect(res.status.calledWith(500)).to.equal(true);
-    expect(res.json.called).to.equal(true);
-    expect(res.json.calledWith(sinon.match({ error: 'test error' }))).to.equal(true);
+    expect(errorHandlerStub.calledWith(testError))
+      .to
+      .equal(true);
+    expect(res.status.calledWith(500))
+      .to
+      .equal(true);
+    expect(res.json.called)
+      .to
+      .equal(true);
+    expect(res.json.calledWith(sinon.match({ error: 'test error' })))
+      .to
+      .equal(true);
     done();
 
   });
@@ -68,9 +84,15 @@ describe('expressErrorHandler', function () {
     };
 
     expressErrorHandler(testError, {}, res, nextSpy);
-    expect(res.status.calledWith(500)).to.equal(true);
-    expect(res.json.called).to.equal(true);
-    expect(res.json.calledWith(sinon.match({ error: 'Something broke' }))).to.equal(true);
+    expect(res.status.calledWith(500))
+      .to
+      .equal(true);
+    expect(res.json.called)
+      .to
+      .equal(true);
+    expect(res.json.calledWith(sinon.match({ error: 'Something broke' })))
+      .to
+      .equal(true);
     done();
 
   });
@@ -88,9 +110,15 @@ describe('expressErrorHandler', function () {
     };
 
     expressErrorHandler(testError, {}, res, nextSpy);
-    expect(res.status.calledWith(420)).to.equal(true);
-    expect(res.json.called).to.equal(true);
-    expect(res.json.calledWith(sinon.match({ error: 'Something broke' }))).to.equal(true);
+    expect(res.status.calledWith(420))
+      .to
+      .equal(true);
+    expect(res.json.called)
+      .to
+      .equal(true);
+    expect(res.json.calledWith(sinon.match({ error: 'Something broke' })))
+      .to
+      .equal(true);
     done();
 
   });

@@ -15,16 +15,20 @@ describe('postFileEndpoint', () => {
 
     Promise.resolve(postFileEndpoint({}, res))
       .then(() => {
-        expect(res.status.calledWith(400), 'did not send 400 when missing reqObj').to.equal(true);
+        expect(res.status.calledWith(400), 'did not send 400 when missing reqObj')
+          .to
+          .equal(true);
         expect(res.json.calledWith({
-          errors: [ {
+          errors: [{
             error: 'sorry we couldn\'t interpret you\'re request',
             status: 400
-          } ]
-        }), 'did not send error message when missing returnVal').to.equal(true);
+          }]
+        }), 'did not send error message when missing returnVal')
+          .to
+          .equal(true);
         done();
       })
-      .catch(err => done(err) );
+      .catch(err => done(err));
   });
 
   it('should send the returnVal status and returnVal data when included', (done) => {
@@ -32,10 +36,10 @@ describe('postFileEndpoint', () => {
     const req = {
       reqObj: {
         status: 420,
-        data: [ {
+        data: [{
           state: 'of mind',
           needs: 'tacos'
-        } ]
+        }]
       }
     };
 
@@ -46,11 +50,15 @@ describe('postFileEndpoint', () => {
 
     Promise.resolve(postFileEndpoint(req, res))
       .then(() => {
-        expect(res.status.calledWith(420), 'did not set status when returnVal.status was included').to.equal(true);
-        expect(res.json.calledWith(req.reqObj), 'did not send data when returnVal.data was included ').to.equal(true);
+        expect(res.status.calledWith(420), 'did not set status when returnVal.status was included')
+          .to
+          .equal(true);
+        expect(res.json.calledWith(req.reqObj), 'did not send data when returnVal.data was included ')
+          .to
+          .equal(true);
         done();
       })
-      .catch(err => done(err) );
+      .catch(err => done(err));
   });
 
   it('should send the error message and status status when errors are included', (done) => {
@@ -58,10 +66,10 @@ describe('postFileEndpoint', () => {
     const req = {
       reqObj: {
         status: 444,
-        errors: [ {
+        errors: [{
           state: 'of mind',
           needs: 'tacos'
-        } ]
+        }]
       }
     };
 
@@ -72,10 +80,14 @@ describe('postFileEndpoint', () => {
 
     Promise.resolve(postFileEndpoint(req, res))
       .then(() => {
-        expect(res.status.calledWith(444), 'did not set status when returnVal.status was included').to.equal(true);
-        expect(res.json.calledWith(req.reqObj), 'did not send data when returnVal.data was included ').to.equal(true);
+        expect(res.status.calledWith(444), 'did not set status when returnVal.status was included')
+          .to
+          .equal(true);
+        expect(res.json.calledWith(req.reqObj), 'did not send data when returnVal.data was included ')
+          .to
+          .equal(true);
         done();
       })
-      .catch(err => done(err) );
+      .catch(err => done(err));
   });
 });

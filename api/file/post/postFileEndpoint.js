@@ -1,4 +1,5 @@
 'use strict';
+
 /**
  * @module files
  */
@@ -14,10 +15,10 @@ function postFileEndpoint(req, res) {
   const status = req.reqObj && req.reqObj.status ? req.reqObj.status : 400;
 
   const data = req.reqObj && (req.reqObj.data || req.reqObj.errors) ? req.reqObj : {
-    errors: [ {
+    errors: [{
       error: 'sorry we couldn\'t interpret you\'re request',
       status: 400
-    } ]
+    }]
   };
   res.status(status);
   res.json(data);

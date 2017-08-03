@@ -15,11 +15,12 @@ describe('ContentItem Model', function () {
   before(function (done) {
     this.timeout(120000);
 
-    mockgoose.prepareStorage().then(function () {
-      mongoose.connect('mongodb://example.com/TestingDB', function (err) {
-        done(err);
+    mockgoose.prepareStorage()
+      .then(function () {
+        mongoose.connect('mongodb://example.com/TestingDB', function (err) {
+          done(err);
+        });
       });
-    });
   });
 
   it('should require title', function (done) {
@@ -29,7 +30,9 @@ describe('ContentItem Model', function () {
 
     testContentItem.save((err) => {
       expect(err).to.exist;
-      expect(err.message).to.equal('ContentItem validation failed: title: Path `title` is required.');
+      expect(err.message)
+        .to
+        .equal('ContentItem validation failed: title: Path `title` is required.');
       done();
     });
   });
@@ -41,7 +44,9 @@ describe('ContentItem Model', function () {
 
     testContentItem.save((err, item) => {
       expect(err).to.not.exist;
-      expect(item.title).to.equal(testContentItem.title);
+      expect(item.title)
+        .to
+        .equal(testContentItem.title);
       done();
     });
   });
@@ -53,8 +58,12 @@ describe('ContentItem Model', function () {
 
     testContentItem.save((err, item) => {
       expect(err).to.not.exist;
-      expect(item.uniqueTitle).to.contain('gulliver-s-travels-');
-      expect(item.uniqueTitle.length).to.equal(32);
+      expect(item.uniqueTitle)
+        .to
+        .contain('gulliver-s-travels-');
+      expect(item.uniqueTitle.length)
+        .to
+        .equal(32);
       done();
     });
   });
@@ -64,7 +73,8 @@ describe('ContentItem Model', function () {
     this.timeout(120000);
     mockgoose.prepareStorage()
       .then(() => {
-        mockgoose.helper.reset().then(() => {
+        mockgoose.helper.reset()
+          .then(() => {
             mongoose.connection.close((err) => {
               if (err) done(err);
               done();
