@@ -21,7 +21,8 @@ const corsOptions = configuration.corsOptions;
 
 const mongoUri = `${configuration.database.host}/${configuration.database.name}`;
 const port = configuration.server.port;
-const serverStartTime = moment(new Date()).format('LLLL');
+const serverStartTime = moment(new Date())
+  .format('LLLL');
 const pathToFiles = path.join('.', 'uploads');
 
 mongoose.Promise = Promise;
@@ -37,8 +38,8 @@ mongoose.connect(mongoUri, { useMongoClient: true })
 
 app.use(cors(corsOptions));
 app.use(compression());
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(pathToFiles));
 app.use('/api', apiRoutes);
 app.use('*', catchAllEndpoint);

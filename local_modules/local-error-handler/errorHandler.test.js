@@ -32,7 +32,9 @@ describe('errorHandler', function () {
     let errorHandler = proxyquire('./errorHandler', { 'winston': winstonStub });
 
     errorHandler(testError);
-    expect(errorStub.calledWith(testError)).to.equal(true);
+    expect(errorStub.calledWith(testError))
+      .to
+      .equal(true);
     done();
 
   });
@@ -55,7 +57,9 @@ describe('errorHandler', function () {
     let errorHandler = proxyquire('./errorHandler', { 'winston': winstonStub });
 
     errorHandler(testError);
-    expect(errorStub.calledWith(testError)).to.equal(true);
+    expect(errorStub.calledWith(testError))
+      .to
+      .equal(true);
     done();
 
   });
@@ -65,7 +69,9 @@ describe('errorHandler', function () {
     const testError = 'not enough tacos';
     const fsStub = {
       existsSync: (portFolioFilePath) => {
-        expect(portFolioFilePath).to.equal(logFilePath);
+        expect(portFolioFilePath)
+          .to
+          .equal(logFilePath);
         return false;
       },
       writeFile: sinon.spy()
@@ -85,7 +91,9 @@ describe('errorHandler', function () {
 
     errorHandler(testError);
 
-    expect(fsStub.writeFile.called).to.equal(true);
+    expect(fsStub.writeFile.called)
+      .to
+      .equal(true);
     done();
   });
 
@@ -105,7 +113,9 @@ describe('errorHandler', function () {
     };
     const fsStub = {
       existsSync: (portFolioFilePath) => {
-        expect(portFolioFilePath).to.equal(logFilePath);
+        expect(portFolioFilePath)
+          .to
+          .equal(logFilePath);
         return false;
       },
       writeFile: (filePath, data, callback) => {
@@ -117,7 +127,9 @@ describe('errorHandler', function () {
 
     errorHandler(testError);
 
-    expect(winstonStub.error.calledWith(testError)).to.equal(true);
+    expect(winstonStub.error.calledWith(testError))
+      .to
+      .equal(true);
     done();
   });
 

@@ -14,13 +14,13 @@ const pathToFilesFolder = path.join(__dirname, '..', '..', '..', 'uploads');
  * @param {Object} res - the express response object
  */
 function getFileEndpoint(req, res) {
-  if(!req.fileName) {
+  if (!req.fileName) {
     res.status(404);
     res.json({
-      errors: [ {
+      errors: [{
         error: 'no file found',
         status: 404
-      } ]
+      }]
     });
   } else {
     const imagePath = `${pathToFilesFolder}/${req.fileName}`;

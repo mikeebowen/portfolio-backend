@@ -18,12 +18,16 @@ const contentItemSchema = mongoose.Schema({
   },
   uniqueTitleKey: {
     type: String,
-    default: Date.now().toString()
+    default: Date.now()
+      .toString()
   }
 });
 
-contentItemSchema.virtual('uniqueTitle').get(function () {
-  return `${this.title.toLowerCase().toString().replace(/[^a-z0-9+]+/gi, '-')}-${this.uniqueTitleKey}`;
-});
+contentItemSchema.virtual('uniqueTitle')
+  .get(function () {
+    return `${this.title.toLowerCase()
+      .toString()
+      .replace(/[^a-z0-9+]+/gi, '-')}-${this.uniqueTitleKey}`;
+  });
 
 module.exports = mongoose.model('ContentItem', contentItemSchema);

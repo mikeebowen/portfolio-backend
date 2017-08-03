@@ -1,13 +1,16 @@
 'use strict';
 
-const router = require('express').Router();
+const router = require('express')
+  .Router();
 
 const postFile = require('./post/postFile');
 const postFileEndpoint = require('./post/postFileEndpoint');
 const getFile = require('./get/getFile');
 const getFileEndPoint = require('./get/getFileEndpoint');
 
-router.route([ '/', '/:fileName' ]).get(getFile, getFileEndPoint).post(postFile, postFileEndpoint);
+router.route(['/', '/:fileName'])
+  .get(getFile, getFileEndPoint)
+  .post(postFile, postFileEndpoint);
 
 module.exports = router;
 

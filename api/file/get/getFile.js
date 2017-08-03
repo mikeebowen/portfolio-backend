@@ -17,7 +17,7 @@ const pathToFilesFolder = path.join(__dirname, '..', '..', '..', 'uploads');
  * @param {Function} next - express callback
  */
 function serveImage(req, res, next) {
-  if(!req.params.fileName) {
+  if (!req.params.fileName) {
     next();
   } else {
 

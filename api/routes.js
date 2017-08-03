@@ -1,6 +1,7 @@
 'use strict';
 
-const router = require('express').Router();
+const router = require('express')
+  .Router();
 
 const fileRoutes = require('./file/fileRoutes');
 

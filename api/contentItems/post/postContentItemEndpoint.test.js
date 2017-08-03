@@ -3,9 +3,9 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const postFileEndpoint = require('./postFileEndpoint');
+const postContentItemEndpoint = require('./postContentItemEndpoint');
 
-describe('postFileEndpoint', () => {
+describe('postContentItemEndpoint', () => {
 
   it('should return 400 status and error message when reqObj is not included', (done) => {
     const res = {
@@ -13,7 +13,7 @@ describe('postFileEndpoint', () => {
       status: sinon.spy()
     };
 
-    Promise.resolve(postFileEndpoint({}, res))
+    Promise.resolve(postContentItemEndpoint({}, res))
       .then(() => {
         expect(res.status.calledWith(400), 'did not send 400 when missing reqObj')
           .to
@@ -48,7 +48,7 @@ describe('postFileEndpoint', () => {
       status: sinon.spy()
     };
 
-    Promise.resolve(postFileEndpoint(req, res))
+    Promise.resolve(postContentItemEndpoint(req, res))
       .then(() => {
         expect(res.status.calledWith(420), 'did not set status when returnVal.status was included')
           .to
@@ -78,12 +78,12 @@ describe('postFileEndpoint', () => {
       status: sinon.spy()
     };
 
-    Promise.resolve(postFileEndpoint(req, res))
+    Promise.resolve(postContentItemEndpoint(req, res))
       .then(() => {
-        expect(res.status.calledWith(444), 'did not set status when returnVal.status was included')
+        expect(res.status.calledWith(444), 'did not set status when reqObj.status was included')
           .to
           .equal(true);
-        expect(res.json.calledWith(req.reqObj), 'did not send data when returnVal.data was included ')
+        expect(res.json.calledWith(req.reqObj), 'did not send data when reqObj.data was included ')
           .to
           .equal(true);
         done();

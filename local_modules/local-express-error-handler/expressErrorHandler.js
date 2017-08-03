@@ -15,7 +15,7 @@ const errorHandler = require('local-error-handler');
  * @param {Function} next - the Express next callback
  */
 // eslint-disable-next-line no-unused-vars
-function expressErrorHandler (err, req, res, next) {
+function expressErrorHandler(err, req, res, next) {
   if (process.env.NODE_ENV !== 'production') {
     errorHandler(err);
     res.status(err.status || 500);

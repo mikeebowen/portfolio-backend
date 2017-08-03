@@ -26,12 +26,15 @@ describe('postFile', function () {
     let postFile = proxyquire('./postFile', { 'fs': fsStub, 'file-type': fileTypeSub });
 
     postFile(req, {}, () => {
-      expect(req.reqObj).to.deep.equal({
-        errors: [ {
-          error: 'required fields missing',
-          status: 400
-        } ]
-      });
+      expect(req.reqObj)
+        .to
+        .deep
+        .equal({
+          errors: [{
+            error: 'required fields missing',
+            status: 400
+          }]
+        });
       done();
     });
   });
@@ -62,8 +65,13 @@ describe('postFile', function () {
     postFile(req, res, () => {
     });
 
-    expect(fsStub.writeFile.args[ 0 ][ 0 ].toString()).to.contain('/uploads/testName.png');
-    expect(fsStub.writeFile.args[ 0 ][ 1 ]).to.deep.equal(testBuffer);
+    expect(fsStub.writeFile.args[0][0].toString())
+      .to
+      .contain('/uploads/testName.png');
+    expect(fsStub.writeFile.args[0][1])
+      .to
+      .deep
+      .equal(testBuffer);
     done();
   });
 
@@ -84,17 +92,20 @@ describe('postFile', function () {
     let postFile = proxyquire('./postFile', { 'file-type': fileTypeSub });
 
     postFile(req, res, () => {
-      expect(req.reqObj).to.deep.equal({
-        'data': {
-          'type': 'fileInfo',
-          'attributes': {
-            'name': 'testName.png',
-            'message': 'file successfully uploaded',
-            'path': '/api/file/testName.png'
-          }
-        },
-        'status': 201
-      });
+      expect(req.reqObj)
+        .to
+        .deep
+        .equal({
+          'data': {
+            'type': 'fileInfo',
+            'attributes': {
+              'name': 'testName.png',
+              'message': 'file successfully uploaded',
+              'path': '/api/file/testName.png'
+            }
+          },
+          'status': 201
+        });
       done();
     });
   });
@@ -128,7 +139,9 @@ describe('postFile', function () {
 
     postFile(req, {});
     setTimeout(() => {
-      expect(expressErrorHandlerSpy.called).to.equal(true);
+      expect(expressErrorHandlerSpy.called)
+        .to
+        .equal(true);
       done();
     }, 100);
   });
