@@ -54,7 +54,7 @@ describe('postContentItem', function () {
     postContentItem(req, {}, (err) => {
       expect(err).not.to.exist;
 
-      expect(req.reqObj)
+      expect(req.responseData)
         .to
         .deep
         .equal({

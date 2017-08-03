@@ -21,7 +21,7 @@ const uploadsFilePath = path.join(__dirname, '..', '..', '..', 'uploads');
 function postFile(req, res, next) {
 
   if (!req.body.base64String) {
-    req.reqObj = {
+    req.responseData = {
       errors: [{
         error: 'required fields missing',
         status: 400
@@ -40,7 +40,7 @@ function postFile(req, res, next) {
       if (err) {
         expressErrorHandler(err, req, res, next);
       } else {
-        req.reqObj = {
+        req.responseData = {
           'data': {
             'type': 'fileInfo',
             'attributes': {

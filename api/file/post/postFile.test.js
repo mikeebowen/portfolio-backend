@@ -26,7 +26,7 @@ describe('postFile', function () {
     let postFile = proxyquire('./postFile', { 'fs': fsStub, 'file-type': fileTypeSub });
 
     postFile(req, {}, () => {
-      expect(req.reqObj)
+      expect(req.responseData)
         .to
         .deep
         .equal({
@@ -75,7 +75,7 @@ describe('postFile', function () {
     done();
   });
 
-  it('should call set the correct values on req.reqObj when file is written successfully', function (done) {
+  it('should call set the correct values on req.responseData when file is written successfully', function (done) {
     const res = {};
     const req = {
       body: {
@@ -92,7 +92,7 @@ describe('postFile', function () {
     let postFile = proxyquire('./postFile', { 'file-type': fileTypeSub });
 
     postFile(req, res, () => {
-      expect(req.reqObj)
+      expect(req.responseData)
         .to
         .deep
         .equal({

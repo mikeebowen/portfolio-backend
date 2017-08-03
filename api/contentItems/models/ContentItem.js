@@ -20,7 +20,8 @@ const contentItemSchema = mongoose.Schema({
     type: String,
     default: Date.now()
       .toString()
-  }
+  },
+  queryScore: Number
 });
 
 contentItemSchema.virtual('uniqueTitle')
