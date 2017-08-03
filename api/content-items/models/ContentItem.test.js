@@ -8,15 +8,15 @@ const expect = require('chai').expect;
 
 const ContentItem = require('./ContentItem');
 
-describe('ContentItem Model', function() {
+describe('ContentItem Model', function () {
   //extend timeout for mockgoose
   this.timeout(120000);
 
-  before(function(done) {
+  before(function (done) {
     this.timeout(120000);
 
-    mockgoose.prepareStorage().then(function() {
-      mongoose.connect('mongodb://example.com/TestingDB', function(err) {
+    mockgoose.prepareStorage().then(function () {
+      mongoose.connect('mongodb://example.com/TestingDB', function (err) {
         done(err);
       });
     });
@@ -60,10 +60,17 @@ describe('ContentItem Model', function() {
   });
 
   // restoring everything back
-  after( (done) => {
-
-    mockgoose.helper.reset().then(() => {
-      done();
-    });
+  after(function (done) {
+    this.timeout(120000);
+    mockgoose.prepareStorage()
+      .then(() => {
+        mockgoose.helper.reset().then(() => {
+            mongoose.connection.close((err) => {
+              if (err) done(err);
+              done();
+            });
+          })
+          .catch(err => done(err));
+      });
   });
 });
