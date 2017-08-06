@@ -18,17 +18,16 @@ const contentItemSchema = mongoose.Schema({
   },
   uniqueTitleKey: {
     type: String,
-    default: Date.now()
-      .toString()
+    default: Date.now().toString()
   },
-  queryScore: Number
+  uniqueTitle: String
 });
 
-contentItemSchema.virtual('uniqueTitle')
-  .get(function () {
-    return `${this.title.toLowerCase()
-      .toString()
-      .replace(/[^a-z0-9+]+/gi, '-')}-${this.uniqueTitleKey}`;
-  });
+// Define a pre-save method for contentItemSchema
+contentItemSchema.pre('save', function (next) {
+  this.uniqueTitle = `${this.title.toLowerCase().toString()
+    .replace(/[^a-z0-9+]+/gi, '-')}-${this.uniqueTitleKey}`;
+  next();
+});
 
 module.exports = mongoose.model('ContentItem', contentItemSchema);

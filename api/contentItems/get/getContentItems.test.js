@@ -12,28 +12,26 @@ const getContentItems = require('./getContentItems');
 describe('getContentItems', function () {
   //extend timeout for mockgoose
   this.timeout(120000);
-
+  
   before(function (done) {
     this.timeout(120000);
-
+    
     mockgoose.prepareStorage()
       .then(function () {
         mongoose.connect('mongodb://example.com/TestingDB', function (err) {
           done(err);
         });
-      });
+      })
+      .catch(err => done(err));
   });
-
+  
   it('should return ContentItems corresponding to search query', function (done) {
-    expect(getContentItems)
-      .to
-      .be
-      .a('function');
-
+    expect(getContentItems).to.be.a('function');
+    
     done();
   });
-
-
+  
+  
   // restoring everything back
   after(function (done) {
     this.timeout(120000);
@@ -47,6 +45,7 @@ describe('getContentItems', function () {
             });
           })
           .catch(err => done(err));
-      });
+      })
+      .catch(err => done(err));
   });
 });
