@@ -19,11 +19,11 @@ function expressErrorHandler(err, req, res, next) {
   if (process.env.NODE_ENV !== 'production') {
     errorHandler(err);
     res.status(err.status || 500);
-    res.json({ error: err.message });
+    res.json({error: err.message});
   } else {
     errorHandler(err);
     res.status(err.status || 500);
-    res.json({ error: 'Something broke' });
+    res.json({error: 'Something broke'});
   }
 }
 
