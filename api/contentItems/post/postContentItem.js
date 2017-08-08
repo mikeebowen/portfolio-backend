@@ -1,15 +1,23 @@
 'use strict';
-const _ = require('lodash');
 
 const ContentItem = require('../models/ContentItem');
-const expressErrorHandler = require('local-express-error-handler');
 
 function postContentItem(req, res, next) {
-  const contentItem = _.pick(req.body.contentItem, 'author', 'content', 'description', 'image', 'postType', 'subtitle', 'title');
-
-  ContentItem.create(contentItem)
-    .then(newContentItem => {
-      req.reqObj = {
+  const contentItem = {
+    author: req.body.contentItem.author,
+    content: req.body.contentItem.content,
+    description: req.body.contentItem.description,
+    image: req.body.contentItem.image,
+    postType: req.body.contentItem.postType,
+    subtitle: req.body.contentItem.subtitle,
+    title: req.body.contentItem.title
+  };
+  
+  ContentItem.create(contentItem, (err, newContentItem) => {
+    if (err) {
+      next(err);
+    } else {
+      req.responseData = {
         'data': {
           'type': 'Message',
           'attributes': {
@@ -19,8 +27,8 @@ function postContentItem(req, res, next) {
         'status': 200
       };
       next();
-    })
-    .catch(err => expressErrorHandler(err, req, res, next));
+    }
+  });
 }
 
 

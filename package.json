@@ -31,7 +31,6 @@
     "file-type": "^5.2.0",
     "local-error-handler": "file:local_modules/local-error-handler",
     "local-express-error-handler": "file:local_modules/local-express-error-handler",
-    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.4",
@@ -40,8 +39,6 @@
   "devDependencies": {
     "@types/cli-color": "^0.3.29",
     "@types/express": "^4.0.36",
-    "@types/mongoose": "^4.7.19",
-    "@types/sinon": "^2.3.3",
     "apidoc": "^0.17.6",
     "chai": "^4.1.0",
     "coveralls": "^2.13.1",

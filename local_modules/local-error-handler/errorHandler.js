@@ -7,7 +7,7 @@ const winston = require('winston');
 const path = require('path');
 const fs = require('fs');
 
-const logFilePath = path.join(__dirname, '../../log', 'portfolio.log');
+const logFilePath = path.join(__dirname, '..', '..', 'log', 'portfolio.log');
 
 if (!fs.existsSync(logFilePath)) {
   fs.writeFile(logFilePath, 'portfolio log file\n', (err) => {
@@ -43,7 +43,7 @@ const prodLogger = new (winston.Logger)({
  */
 
 function errorHandler(error) {
-
+  
   if (process.env.NODE_ENV !== 'production') {
     prodLogger.error(error);
   } else {
