@@ -27,7 +27,7 @@ describe('getSingleContentItem', function () {
       .catch(err => done(err));
   });
   
-  it('should return ContentItems corresponding to search query', function (done) {
+  it('should return the ContentItem corresponding to the uniqueTitle', function (done) {
     const testContent1 = new ContentItem({
       author: 'Joseph Heller',
       content: '<p>test content content</p>',
@@ -47,14 +47,6 @@ describe('getSingleContentItem', function () {
     
     const promiseArray = [testContent1.save(), testContent2.save()];
     
-    function errorHandlerStub(err, req, res, next) {
-      expect(true).to.equal(true);
-      done(err);
-    }
-    
-    // eslint-disable-next-line prefer-const
-    let getSingleContentItem = proxyquire('./getSingleContentItem', {'local-express-error-handler': errorHandlerStub});
-    
     Promise.all(promiseArray)
       .then((contentItems) => {
         const req = {
@@ -69,6 +61,7 @@ describe('getSingleContentItem', function () {
           image: contentItems[0].image,
           postType: contentItems[0].postType,
           subtitle: contentItems[0].subtitle,
+          uniqueTitle: contentItems[0].uniqueTitle,
           title: contentItems[0].title
         };
         const testResponseData = {
@@ -89,13 +82,7 @@ describe('getSingleContentItem', function () {
   });
   
   it('should return a not found error and status 404 when content item is not found', function (done) {
-    function errorHandlerStub(err, req, res, next) {
-      expect(err).to.not.exist;
-      done(err);
-    }
     
-    // eslint-disable-next-line prefer-const
-    let getSingleContentItem = proxyquire('./getSingleContentItem', {'local-express-error-handler': errorHandlerStub});
     const req = {
       params: {
         uniqueTitle: 'not-a-real-title-12345'
@@ -114,26 +101,17 @@ describe('getSingleContentItem', function () {
     });
   });
   
-  it('should call the error handler with an error if mongo returns an error', function (done) {
+  it('should call the next with error if mongo returns an error', function (done) {
     const testError = 'not a real error';
-    const expressErrorHandlerSpy = (err, req, res, next) => {
-      expect(err).to.equal(testError);
-      expect(req).to.equal(req);
-      expect(res).to.equal(res);
-      expect(next.called).to.equal(false);
-      
-      done();
-    };
     const nextSpy = sinon.spy();
     const ContentItemStub = {
-      findOne: () => {
-        return Promise.reject(testError);
+      findOne: (query, callback) => {
+        callback(testError);
       }
     };
     
     // eslint-disable-next-line prefer-const
     let getSingleContentItem = proxyquire('./getSingleContentItem', {
-      'local-express-error-handler': expressErrorHandlerSpy,
       '../models/ContentItem': ContentItemStub
     });
     const req = {
@@ -143,6 +121,8 @@ describe('getSingleContentItem', function () {
     };
     
     getSingleContentItem(req, {}, nextSpy);
+    expect(nextSpy.calledWith(testError), 'next not correctly called with error').to.equal(true);
+    done();
   });
   
   // restoring everything back
