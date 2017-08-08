@@ -99,19 +99,25 @@ describe('postFile', function () {
     });
   });
   
-  it('should call the errorHandler when an error is returned', function (done) {
-    
+  it('should call next with error when an error is returned', function (done) {
+    const testError = 'angry kitty';
     const req = {
       body: {
         base64String: 'ba',
         fileName: 'testName.png'
       }
     };
-    const expressErrorHandlerSpy = sinon.spy();
     const pathStub = {
       join: () => {
         return () => {
         };
+      }
+    };
+    const nextSpy = sinon.spy();
+    
+    const fsStub = {
+      writeFile: (filePath, buffer, callback) => {
+        callback(testError);
       }
     };
     
@@ -122,14 +128,12 @@ describe('postFile', function () {
     // eslint-disable-next-line prefer-const
     let postFile = proxyquire('./postFile', {
       'file-type': fileTypeSub,
-      'local-express-error-handler': expressErrorHandlerSpy,
-      'path': pathStub
+      'path': pathStub,
+      'fs': fsStub
     });
     
-    postFile(req, {});
-    setTimeout(() => {
-      expect(expressErrorHandlerSpy.called).to.equal(true);
-      done();
-    }, 100);
+    postFile(req, {}, nextSpy);
+    expect(nextSpy.calledWith(testError), 'next not called with error').to.equal(true);
+    done();
   });
 });

@@ -128,11 +128,11 @@ describe('postContentItem', function () {
     });
   });
   
-  it('should call the expressErrorHandler if the database returns an error', function (done) {
+  it('should call the next with error if the database returns an error', function (done) {
     const testError = 'no tacos';
     const ContentItemStub = {
-      create: () => {
-        return Promise.reject(testError);
+      create: (data, callback) => {
+        callback(testError);
       }
     };
     const nextSpy = sinon.spy();
@@ -143,22 +143,14 @@ describe('postContentItem', function () {
         contentItem: testContentItem
       }
     };
-    const expressErrorHandlerSpy = (err, req, res, next) => {
-      expect(err).to.equal(testError);
-      expect(req).to.equal(req);
-      expect(res).to.equal(res);
-      expect(next.called).to.equal(false);
-      
-      done();
-    };
+
     // eslint-disable-next-line prefer-const
-    let postContentItem = proxyquire('./postContentItem', {
-      'local-express-error-handler': expressErrorHandlerSpy,
-      '../models/ContentItem': ContentItemStub
-    });
+    let postContentItem = proxyquire('./postContentItem', {'../models/ContentItem': ContentItemStub});
     
     postContentItem(req, res, nextSpy);
     
+    expect(nextSpy.calledWith(testError)).to.equal(true);
+    done();
   });
   
   // restoring everything back

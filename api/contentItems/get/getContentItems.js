@@ -1,7 +1,6 @@
 'use strict';
 
 const ContentItem = require('../models/ContentItem');
-const expressErrorHandler = require('local-express-error-handler');
 
 function extractResourceObject(item) {
   
@@ -12,6 +11,7 @@ function extractResourceObject(item) {
     image: item.image,
     postType: item.postType,
     subtitle: item.subtitle,
+    uniqueTitle: item.uniqueTitle,
     title: item.title
   };
   
@@ -32,12 +32,14 @@ function sortResourceObjects(items, query) {
       .match(queryRegEx) || []).length : 0;
     const titleMatches = contentItem.attributes.title ? (contentItem.attributes.title.toLowerCase()
       .match(queryRegEx) || []).length : 0;
+    const subtitleMatches = contentItem.attributes.subtitle ? (contentItem.attributes.subtitle.toLowerCase()
+      .match(queryRegEx) || []).length : 0;
     const descriptionMatches = contentItem.attributes.description ? (contentItem.attributes.description.toLowerCase()
       .match(queryRegEx) || []).length : 0;
     const authorMatches = contentItem.attributes.author ? (contentItem.attributes.author.toLowerCase()
       .match(queryRegEx) || []).length : 0;
     
-    contentItem.queryScore = contentMatches + titleMatches + descriptionMatches + authorMatches;
+    contentItem.queryScore = contentMatches + titleMatches + descriptionMatches + authorMatches + subtitleMatches;
     
     return contentItem;
   });
@@ -49,11 +51,13 @@ function sortResourceObjects(items, query) {
 
 function getContentItems(req, res, next) {
   
-  ContentItem.find()
-    .then(contentItems => {
+  ContentItem.find({}, (err, contentItems) => {
+    if (err) {
+      next(err);
+    } else if (contentItems.length) {
       let responseData;
-      const limit = +req.query.limit;
-      if (req.query.q) {
+      const limit = req.query ? +req.query.limit : NaN;
+      if (req.query && req.query.q) {
         responseData = sortResourceObjects(contentItems, req.query.q);
       } else {
         responseData = contentItems.map(item => {
@@ -68,8 +72,17 @@ function getContentItems(req, res, next) {
         req.responseData = responseData;
         next();
       }
-    });
-  
+    } else {
+      req.responseData = {
+        errors: [{
+          error: 'sorry we could not find anything',
+          status: 404
+        }]
+      };
+      
+      next();
+    }
+  });
 }
 
 module.exports = getContentItems;

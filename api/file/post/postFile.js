@@ -7,8 +7,6 @@ const path = require('path');
 const fs = require('fs');
 const fileType = require('file-type');
 
-const expressErrorHandler = require('local-express-error-handler');
-
 const uploadsFilePath = path.join(__dirname, '..', '..', '..', 'uploads');
 
 /**
@@ -30,15 +28,14 @@ function postFile(req, res, next) {
     
     next();
   } else {
-    const base64String = req.body.base64String.split(';base64,')
-      .pop();
+    const base64String = req.body.base64String.split(';base64,').pop();
     const imageBuffer = Buffer.from(base64String, 'base64');
     const fileExtension = fileType(imageBuffer).ext;
     const fileName = req.body.fileName ? req.body.fileName : `file-${Date.now()}.${fileExtension}`;
     
     fs.writeFile(`${uploadsFilePath}/${fileName}`, imageBuffer, (err) => {
       if (err) {
-        expressErrorHandler(err, req, res, next);
+        next(err);
       } else {
         req.responseData = {
           'data': {

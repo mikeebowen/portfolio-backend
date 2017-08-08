@@ -76,8 +76,7 @@ describe('getFile', function () {
     });
   });
   
-  it('should call the errorHandler when an error is returned', function (done) {
-    
+  it('should call the next with error when an error is returned', function (done) {
     const req = {
       params: {
         fileName: 'tuna.js'
@@ -87,10 +86,16 @@ describe('getFile', function () {
         fileName: 'testName.png'
       }
     };
-    const expressErrorHandlerSpy = sinon.spy();
     const pathStub = {
       join: () => {
         return '/fake/path';
+      }
+    };
+    const nextSpy = sinon.spy();
+    const testError = 'too much tabasco';
+    const fsStub = {
+      readdir: (path, callback) => {
+        callback(testError);
       }
     };
     
@@ -101,15 +106,13 @@ describe('getFile', function () {
     // eslint-disable-next-line prefer-const
     let getFile = proxyquire('./getFile', {
       'file-type': fileTypeSub,
-      'local-express-error-handler': expressErrorHandlerSpy,
-      'path': pathStub
+      'path': pathStub,
+      'fs': fsStub
     });
     
-    getFile(req, {});
-    setTimeout(() => {
-      expect(expressErrorHandlerSpy.called).to.equal(true);
-      
-      done();
-    }, 100);
+    getFile(req, {}, nextSpy);
+    
+    expect(nextSpy.calledWith(testError), 'next not called with error').to.equal(true);
+    done();
   });
 });

@@ -5,8 +5,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const expressErrorHandler = require('local-express-error-handler');
-
 const pathToFilesFolder = path.join(__dirname, '..', '..', '..', 'uploads');
 
 /**
@@ -23,9 +21,8 @@ function serveImage(req, res, next) {
   } else {
     
     fs.readdir(pathToFilesFolder, (err, files) => {
-      /* istanbul ignore if */
       if (err) {
-        expressErrorHandler(err, req, res, next);
+        next(err);
       } else {
         for (const fileName of files) {
           if (req.params.fileName === fileName) req.fileName = fileName;
