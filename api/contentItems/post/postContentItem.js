@@ -21,10 +21,10 @@ function postContentItem(req, res, next) {
         'data': {
           'type': 'Message',
           'attributes': {
-            'message': `${newContentItem.title} successfully saved`
+            'message': `${newContentItem.title} successfully created`
           }
         },
-        'status': 200
+        'status': 201
       };
       next();
     }

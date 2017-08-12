@@ -65,10 +65,10 @@ describe('postContentItem', function () {
         'data': {
           'type': 'Message',
           'attributes': {
-            'message': 'Test Post successfully saved'
+            'message': 'Test Post successfully created'
           }
         },
-        'status': 200
+        'status': 201
       });
       
       ContentItem.findOne({author: testContentItem.author}).then(foundContentItem => {
@@ -110,10 +110,10 @@ describe('postContentItem', function () {
         'data': {
           'type': 'Message',
           'attributes': {
-            'message': 'a test title successfully saved'
+            'message': 'a test title successfully created'
           }
         },
-        'status': 200
+        'status': 201
       });
       
       ContentItem.findOne({author: testContentItem2.author})
@@ -143,7 +143,7 @@ describe('postContentItem', function () {
         contentItem: testContentItem
       }
     };
-
+    
     // eslint-disable-next-line prefer-const
     let postContentItem = proxyquire('./postContentItem', {'../models/ContentItem': ContentItemStub});
     
