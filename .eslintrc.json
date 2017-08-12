@@ -5,6 +5,9 @@
     "mocha": true
   },
   "extends": "eslint:recommended",
+  "globals": {
+    "expect": true
+  },
   "rules": {
     "eol-last": ["error", "always"],
     "indent": ["error", 2, { "MemberExpression": 1 }],

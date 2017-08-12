@@ -1,7 +1,6 @@
 'use strict';
 
-const router = require('express')
-  .Router();
+const router = require('express').Router();
 
 const postFile = require('./post/postFile');
 const postFileEndpoint = require('./post/postFileEndpoint');
