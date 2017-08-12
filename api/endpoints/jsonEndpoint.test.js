@@ -3,9 +3,9 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const postContentItemEndpoint = require('./postContentItemEndpoint');
+const jsonEndpoint = require('./jsonEndpoint');
 
-describe('postContentItemEndpoint', () => {
+describe('jsonEndpoint', () => {
   
   it('should return 400 status and error message when responseData is not included', (done) => {
     const res = {
@@ -13,7 +13,7 @@ describe('postContentItemEndpoint', () => {
       status: sinon.spy()
     };
     
-    Promise.resolve(postContentItemEndpoint({}, res))
+    Promise.resolve(jsonEndpoint({}, res))
       .then(() => {
         expect(res.status.calledWith(400), 'did not send 400 when missing responseData').to.equal(true);
         expect(res.json.calledWith({
@@ -21,7 +21,7 @@ describe('postContentItemEndpoint', () => {
             error: 'sorry we couldn\'t interpret you\'re request',
             status: 400
           }]
-        }), 'did not send error message when missing returnVal')
+        }), 'did not send error message when missing responseData')
           .to.equal(true);
         
         done();
@@ -29,7 +29,7 @@ describe('postContentItemEndpoint', () => {
       .catch(err => done(err));
   });
   
-  it('should send the returnVal status and returnVal data when included', (done) => {
+  it('should send the responseData status and responseData data when included', (done) => {
     
     const req = {
       responseData: {
@@ -46,10 +46,10 @@ describe('postContentItemEndpoint', () => {
       status: sinon.spy()
     };
     
-    Promise.resolve(postContentItemEndpoint(req, res))
+    Promise.resolve(jsonEndpoint(req, res))
       .then(() => {
-        expect(res.status.calledWith(420), 'did not set status when returnVal.status was included').to.equal(true);
-        expect(res.json.calledWith(req.responseData), 'did not send data when returnVal.data was included ').to
+        expect(res.status.calledWith(420), 'did not set status when responseData.status was included').to.equal(true);
+        expect(res.json.calledWith(req.responseData), 'did not send data when responseData.data was included ').to
           .equal(true);
         
         done();
@@ -74,7 +74,7 @@ describe('postContentItemEndpoint', () => {
       status: sinon.spy()
     };
     
-    Promise.resolve(postContentItemEndpoint(req, res))
+    Promise.resolve(jsonEndpoint(req, res))
       .then(() => {
         expect(res.status.calledWith(444), 'did not set status when responseData.status was included').to.equal(true);
         expect(res.json.calledWith(req.responseData), 'did not send data when responseData.data was included ').to

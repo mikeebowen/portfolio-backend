@@ -5,13 +5,13 @@
  */
 
 /**
- * endpoint for posting file
- * @function ContentItemEndPoints
+ * endpoint for returning JSON data
+ * @function jsonEndpoint
  * @param {Object} req - the express request object
  * @param {Object} res - the express response object
  */
 
-function postFileEndpoint(req, res) {
+function jsonEndpoint(req, res) {
   const status = req.responseData && req.responseData.status ? req.responseData.status : 400;
   
   const data = req.responseData && (req.responseData.data || req.responseData.errors) ? req.responseData : {
@@ -25,4 +25,4 @@ function postFileEndpoint(req, res) {
   
 }
 
-module.exports = exports = postFileEndpoint;
+module.exports = exports = jsonEndpoint;
