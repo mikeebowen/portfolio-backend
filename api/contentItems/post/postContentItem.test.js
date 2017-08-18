@@ -121,9 +121,68 @@ describe('postContentItem', function () {
           expect(foundContentItem.author).to.equal(testContentItem2.author);
           expect(foundContentItem.content).to.equal(testContentItem2.content);
           expect(foundContentItem.title).to.equal(testContentItem2.title);
-          expect(foundContentItem.subtitle).to.not.exist;
+          expect(foundContentItem.subtitle).to.equal('undefined');
           done();
         })
+        .catch(err => done(err));
+    });
+  });
+  
+  it('should save a new content item and sanitize html content then call next', function (done) {
+    const testContentItem = {
+      author: 'Testy Testerson',
+      content: '<p>hello world<script>console.log("html content not sanitized");</script></p>',
+      description: 'a test post',
+      image: {
+        src: '/fakeImage.jpg',
+        name: 'testImage'
+      },
+      postType: 'blogPost',
+      title: 'Test Post',
+      subtitle: 'a test blog post',
+    };
+    
+    const trimmedContentItem = {
+      author: testContentItem.author,
+      content: '<p>hello world</p>',
+      description: testContentItem.description,
+      image: testContentItem.image,
+      postType: testContentItem.postType,
+      subtitle: testContentItem.subtitle,
+      title: testContentItem.title
+    };
+    
+    const req = {
+      body: {
+        contentItem: testContentItem
+      }
+    };
+    
+    postContentItem(req, {}, (err) => {
+      expect(err).not.to.exist;
+      
+      expect(req.responseData).to.deep.equal({
+        'data': {
+          'type': 'Message',
+          'attributes': {
+            'message': 'Test Post successfully created'
+          }
+        },
+        'status': 201
+      });
+      
+      ContentItem.findOne({author: testContentItem.author}).then(foundContentItem => {
+        expect(foundContentItem.title).to.equal(trimmedContentItem.title);
+        expect(foundContentItem.subtitle).to.equal(trimmedContentItem.subtitle);
+        expect(foundContentItem.author).to.equal(trimmedContentItem.author);
+        expect(foundContentItem.content).to.equal(trimmedContentItem.content);
+        expect(foundContentItem.postType).to.equal(trimmedContentItem.postType);
+        expect(foundContentItem.description).to.equal(trimmedContentItem.description);
+        expect(foundContentItem.image.src).to.deep.equal(trimmedContentItem.image.src);
+        expect(foundContentItem.image.name).to.deep.equal(trimmedContentItem.image.name);
+        
+        done();
+      })
         .catch(err => done(err));
     });
   });
@@ -151,6 +210,26 @@ describe('postContentItem', function () {
     
     expect(nextSpy.calledWith(testError)).to.equal(true);
     done();
+  });
+  
+  it('should return an error if req.body is missing', function (done) {
+    
+    const req = {};
+    
+    postContentItem(req, {}, (err) => {
+      expect(err.message).to.equal('post request did not include body');
+      done();
+    });
+  });
+  
+  it('should return an error if req.body.contentItem is missing', function (done) {
+    
+    const req = { body: {} };
+    
+    postContentItem(req, {}, (err) => {
+      expect(err.message).to.equal('post request did not include body.contentItem');
+      done();
+    });
   });
   
   // restoring everything back
