@@ -43,9 +43,9 @@ module.exports = router;
  * error message
  * @apiErrorExample {JSON} Error Response:
  * {
- *  errors: [ {
- *    error: "required fields missing",
- *    status: 400
+ *  "errors": [ {
+ *    "error": "required fields missing",
+ *    "status": 400
  *  } ]
  * }
  */
@@ -83,9 +83,9 @@ module.exports = router;
  * error message
  * @apiErrorExample {JSON} Error Response:
  * {
- *  errors: [ {
- *    error: "sorry we couldn't interpret you're request",
- *    status: 400
+ *  "errors": [ {
+ *    "error": "sorry we couldn't interpret you're request",
+ *    "status": 400
  *  } ]
  * }
  */

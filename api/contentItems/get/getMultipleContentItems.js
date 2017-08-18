@@ -1,6 +1,17 @@
 'use strict';
 
+/**
+ * @module ContentItem
+ */
+
 const ContentItem = require('../models/ContentItem');
+
+/**
+ * function to extract resource object from ContentItem instance
+ * @function extracextractResourceObject
+ * @param item {Object} an instance of ConentItem from the database
+ * @returns {{type: string, id, attributes: {author, content, description, image, postType, subtitle, uniqueTitle: (*|string|string), title}}}
+ */
 
 function extractResourceObject(item) {
   
@@ -21,6 +32,14 @@ function extractResourceObject(item) {
     'attributes': contentItem
   };
 }
+
+/**
+ * function to sort resource objects by the number of instances of a string in their data
+ * @function sortResourceObjects
+ * @param items {Object[]} an array of resource objects to sort
+ * @param query {String} the string to use as a value to sort by
+ * @return {Array<Object>} an array of resorce objects sorted by the number of occurrences of the query string in each
+ */
 
 function sortResourceObjects(items, query) {
   const queryRegEx = new RegExp(query.toLowerCase(), 'g');
@@ -48,6 +67,14 @@ function sortResourceObjects(items, query) {
     return b.queryScore - a.queryScore;
   });
 }
+
+/**
+ * express middleware to find ContentItem instances
+ * @function getContentItems
+ * @param req {Object} The express request object
+ * @param res {Object} the express response object
+ * @param next {Function} the express next callback
+ */
 
 function getContentItems(req, res, next) {
   
