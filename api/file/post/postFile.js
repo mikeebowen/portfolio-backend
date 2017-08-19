@@ -43,7 +43,7 @@ function postFile(req, res, next) {
             'attributes': {
               'name': 'testName.png',
               'message': 'file successfully uploaded',
-              'path': `/api/file/${fileName}`
+              'path': `/api/files/${fileName}`
             }
           },
           'status': 201

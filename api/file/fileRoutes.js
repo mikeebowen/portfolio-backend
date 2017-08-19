@@ -4,12 +4,16 @@ const router = require('express').Router();
 
 const postFile = require('./post/postFile');
 const postFileEndpoint = require('./post/postFileEndpoint');
-const getFile = require('./get/getSingleFile');
-const getFileEndPoint = require('./get/getFileEndpoint');
+const getSingleFile = require('./get/getSingleFile');
+const getSingleFileEndPoint = require('./get/getSingleFileEndpoint');
+const getFileList = require('./get/getFileList');
+const jsonEndPoint = require('../endpoints/jsonEndpoint');
 
-router.route(['/', '/:fileName'])
-  .get(getFile, getFileEndPoint)
+router.route('/')
+  .get(getFileList, jsonEndPoint)
   .post(postFile, postFileEndpoint);
+
+router.get('/:fileName', getSingleFile, getSingleFileEndPoint);
 
 module.exports = router;
 
