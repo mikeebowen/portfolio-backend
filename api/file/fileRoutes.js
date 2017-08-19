@@ -4,7 +4,7 @@ const router = require('express').Router();
 
 const postFile = require('./post/postFile');
 const postFileEndpoint = require('./post/postFileEndpoint');
-const getFile = require('./get/getFile');
+const getFile = require('./get/getSingleFile');
 const getFileEndPoint = require('./get/getFileEndpoint');
 
 router.route(['/', '/:fileName'])
