@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
-describe('getFile', function () {
+describe('getSingleFile', function () {
   
   it('should return an image file if one is found', function (done) {
     const fsStub = {
@@ -13,14 +13,14 @@ describe('getFile', function () {
       }
     };
     // eslint-disable-next-line prefer-const
-    let getFile = proxyquire('./getFile', {'fs': fsStub});
+    let getSingleFile = proxyquire('./getSingleFile', {'fs': fsStub});
     const req = {
       params: {
         fileName: 'test-image.jpg'
       }
     };
     
-    getFile(req, {}, (err) => {
+    getSingleFile(req, {}, (err) => {
       if (err) done(err);
       expect(err).to.not.exist;
       expect(req.fileName).to.equal('test-image.jpg');
@@ -36,7 +36,7 @@ describe('getFile', function () {
       }
     };
     // eslint-disable-next-line prefer-const
-    let getFile = proxyquire('./getFile', {'fs': fsStub});
+    let getSingleFile = proxyquire('./getSingleFile', {'fs': fsStub});
     const req = {
       params: {
         fileName: 'test-image-not-in-directory.jpg'
@@ -44,7 +44,7 @@ describe('getFile', function () {
     };
     const res = {};
     
-    getFile(req, res, (err) => {
+    getSingleFile(req, res, (err) => {
       if (err) done(err);
       expect(err).to.not.exist;
       expect(req.fileName).to.be.undefined;
@@ -60,7 +60,7 @@ describe('getFile', function () {
       }
     };
     // eslint-disable-next-line prefer-const
-    let getFile = proxyquire('./getFile', {'fs': fsStub});
+    let getSingleFile = proxyquire('./getSingleFile', {'fs': fsStub});
     const req = {
       params: {
         // fileName: 'test-image.jpg'
@@ -68,7 +68,7 @@ describe('getFile', function () {
     };
     const res = {};
     
-    getFile(req, res, (err) => {
+    getSingleFile(req, res, (err) => {
       if (err) done(err);
       expect(req.fileName).to.be.undefined;
       
@@ -104,13 +104,13 @@ describe('getFile', function () {
     }
     
     // eslint-disable-next-line prefer-const
-    let getFile = proxyquire('./getFile', {
+    let getSingleFile = proxyquire('./getSingleFile', {
       'file-type': fileTypeSub,
       'path': pathStub,
       'fs': fsStub
     });
     
-    getFile(req, {}, nextSpy);
+    getSingleFile(req, {}, nextSpy);
     
     expect(nextSpy.calledWith(testError), 'next not called with error').to.equal(true);
     done();

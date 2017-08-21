@@ -90,7 +90,7 @@ describe('postFile', function () {
           'attributes': {
             'name': 'testName.png',
             'message': 'file successfully uploaded',
-            'path': '/api/file/testName.png'
+            'path': '/api/files/testName.png'
           }
         },
         'status': 201

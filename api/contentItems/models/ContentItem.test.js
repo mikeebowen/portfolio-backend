@@ -36,9 +36,9 @@ describe('ContentItem Model', function () {
     });
   });
   
-  it('should create a ContentItem when title is included title', function (done) {
+  it('should create a ContentItem when title is included title and sanitize values', function (done) {
     const testContentItem = new ContentItem({
-      title: 'Gulliver\'s Travels'
+      title: '<p>Gulliver\'s Travels</p>'
     });
     
     testContentItem.save((err, item) => {
@@ -49,15 +49,29 @@ describe('ContentItem Model', function () {
     });
   });
   
-  it('should create a ContentItem and set the uniqueTitle', function (done) {
+  it('should create a ContentItem and set the uniqueTitle and sanitize values', function (done) {
     const testContentItem = new ContentItem({
-      title: 'Gulliver\'s Travels'
+      title: '<div>Gulliver\'s Travels</div>'
     });
     
     testContentItem.save((err, item) => {
       expect(err).to.not.exist;
       expect(item.uniqueTitle).to.contain('gulliver-s-travels-');
       expect(item.uniqueTitle.length).to.equal(32);
+      
+      done();
+    });
+  });
+  
+  it('should sanitize the content as html content', function (done) {
+    const testContentItem = new ContentItem({
+      title: 'Gulliver\'s Travels',
+      content: '<p>hello world<script>console.log("html content not sanitized");</script></p>'
+    });
+    
+    testContentItem.save((err, item) => {
+      expect(err).to.not.exist;
+      expect(item.content).to.equal('<p>hello world</p>');
       
       done();
     });

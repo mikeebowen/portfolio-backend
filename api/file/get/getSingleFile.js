@@ -16,21 +16,17 @@ const pathToFilesFolder = path.join(__dirname, '..', '..', '..', 'uploads');
  * @param {Function} next - express callback
  */
 function serveImage(req, res, next) {
-  if (!req.params.fileName) {
-    next();
-  } else {
-    
-    fs.readdir(pathToFilesFolder, (err, files) => {
-      if (err) {
-        next(err);
-      } else {
-        for (const fileName of files) {
-          if (req.params.fileName === fileName) req.fileName = fileName;
-        }
-        next();
+  
+  fs.readdir(pathToFilesFolder, (err, files) => {
+    if (err) {
+      next(err);
+    } else {
+      for (const fileName of files) {
+        if (req.params.fileName === fileName) req.fileName = fileName;
       }
-    });
-  }
+      next();
+    }
+  });
 }
 
 module.exports = serveImage;

@@ -9,9 +9,9 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
 const ContentItem = require('../models/ContentItem');
-const getContentItems = require('./getContentItems');
+const getMultipleContentItems = require('./getMultipleContentItems');
 
-describe('getContentItems', function () {
+describe('getMultipleContentItems', function () {
   //extend timeout for mockgoose
   this.timeout(120000);
   
@@ -79,9 +79,9 @@ describe('getContentItems', function () {
     const req = {};
     
     Promise.all(promiseArray)
-      .then((contentItems) => {
+      .then(() => {
         
-        getContentItems(req, {}, (err) => {
+        getMultipleContentItems(req, {}, (err) => {
           expect(err).not.to.exist;
           expect(req.responseData.length).to.equal(5);
           done();
@@ -143,7 +143,7 @@ describe('getContentItems', function () {
     Promise.all(promiseArray)
       .then(() => {
         
-        getContentItems(req, {}, (err) => {
+        getMultipleContentItems(req, {}, (err) => {
           expect(err).not.to.exist;
           expect(req.responseData.length).to.equal(5);
           expect(req.responseData[0].attributes.title).to.equal(testContent1.title);
@@ -211,7 +211,7 @@ describe('getContentItems', function () {
     Promise.all(promiseArray)
       .then(() => {
         
-        getContentItems(req, {}, (err) => {
+        getMultipleContentItems(req, {}, (err) => {
           expect(err).not.to.exist;
           expect(req.responseData.length).to.equal(2);
           expect(req.responseData[0].attributes.title).to.equal(testContent1.title);
@@ -275,7 +275,7 @@ describe('getContentItems', function () {
     Promise.all(promiseArray)
       .then(() => {
         
-        getContentItems(req, {}, (err) => {
+        getMultipleContentItems(req, {}, (err) => {
           expect(err).not.to.exist;
           expect(req.responseData.length).to.equal(2);
           expect(req.responseData[0].attributes).to.have.own.property('title');
@@ -297,7 +297,7 @@ describe('getContentItems', function () {
     };
     
     // eslint-disable-next-line prefer-const
-    let getSingleContentItem = proxyquire('./getContentItems', {
+    let getSingleContentItem = proxyquire('./getMultipleContentItems', {
       '../models/ContentItem': ContentItemStub
     });
     const req = {
@@ -328,7 +328,7 @@ describe('getContentItems', function () {
     };
     
     // eslint-disable-next-line prefer-const
-    let getSingleContentItem = proxyquire('./getContentItems', {
+    let getSingleContentItem = proxyquire('./getMultipleContentItems', {
       '../models/ContentItem': ContentItemStub
     });
     const req = {

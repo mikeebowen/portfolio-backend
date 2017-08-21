@@ -29,11 +29,10 @@
     "cors": "^2.8.4",
     "express": "^4.15.3",
     "file-type": "^5.2.0",
-    "local-error-handler": "file:local_modules/local-error-handler",
-    "local-express-error-handler": "file:local_modules/local-express-error-handler",
     "moment": "^2.18.1",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.4",
+    "sanitize-html": "^1.14.1",
     "winston": "^2.3.1"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const getFileEndpoint = require('./getFileEndpoint');
+const getFileEndpoint = require('./getSingleFileEndpoint');
 
 describe('getFileEndPoint', function () {
   

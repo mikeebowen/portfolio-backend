@@ -1,16 +1,19 @@
 'use strict';
 
-const router = require('express')
-  .Router();
+const router = require('express').Router();
 
 const postFile = require('./post/postFile');
 const postFileEndpoint = require('./post/postFileEndpoint');
-const getFile = require('./get/getFile');
-const getFileEndPoint = require('./get/getFileEndpoint');
+const getSingleFile = require('./get/getSingleFile');
+const getSingleFileEndPoint = require('./get/getSingleFileEndpoint');
+const getFileList = require('./get/getFileList');
+const jsonEndPoint = require('../endpoints/jsonEndpoint');
 
-router.route(['/', '/:fileName'])
-  .get(getFile, getFileEndPoint)
+router.route('/')
+  .get(getFileList, jsonEndPoint)
   .post(postFile, postFileEndpoint);
+
+router.get('/:fileName', getSingleFile, getSingleFileEndPoint);
 
 module.exports = router;
 
@@ -44,9 +47,9 @@ module.exports = router;
  * error message
  * @apiErrorExample {JSON} Error Response:
  * {
- *  errors: [ {
- *    error: "required fields missing",
- *    status: 400
+ *  "errors": [ {
+ *    "error": "required fields missing",
+ *    "status": 400
  *  } ]
  * }
  */
@@ -84,9 +87,9 @@ module.exports = router;
  * error message
  * @apiErrorExample {JSON} Error Response:
  * {
- *  errors: [ {
- *    error: "sorry we couldn't interpret you're request",
- *    status: 400
+ *  "errors": [ {
+ *    "error": "sorry we couldn't interpret you're request",
+ *    "status": 400
  *  } ]
  * }
  */
