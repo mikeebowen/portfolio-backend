@@ -6,6 +6,9 @@ const sanitizeHtmlNoTagsConfig = {
   allowedTags: [],
   allowedAttributes: []
 };
+const sanitizeHtmlContent = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+};
 
 const contentItemSchema = mongoose.Schema({
   author: {
@@ -17,7 +20,7 @@ const contentItemSchema = mongoose.Schema({
   content: {
     type: String,
     set: (val) => {
-      return this.content = sanitizeHtml(val);
+      return this.content = sanitizeHtml(val, sanitizeHtmlContent);
     }
   },
   description: String,

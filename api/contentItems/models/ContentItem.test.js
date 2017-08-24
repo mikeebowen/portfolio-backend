@@ -66,12 +66,12 @@ describe('ContentItem Model', function () {
   it('should sanitize the content as html content', function (done) {
     const testContentItem = new ContentItem({
       title: 'Gulliver\'s Travels',
-      content: '<p>hello world<script>console.log("html content not sanitized");</script></p>'
+      content: '<p>hello world<script>console.log("html content not sanitized");</script><img src="/somewhere.jpg" />"</p>'
     });
     
     testContentItem.save((err, item) => {
       expect(err).to.not.exist;
-      expect(item.content).to.equal('<p>hello world</p>');
+      expect(item.content).to.equal('<p>hello world<img src="/somewhere.jpg" />&quot;</p>');
       
       done();
     });
