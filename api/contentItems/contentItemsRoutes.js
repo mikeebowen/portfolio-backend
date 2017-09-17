@@ -11,7 +11,7 @@ router.route('/')
   .get(getContentItems, jsonEndpoint)
   .post(postContentItem, jsonEndpoint);
 
-router.get('/:uniqueTitle', getSingleContentItem);
+router.get('/:uniqueTitle', getSingleContentItem, jsonEndpoint);
 
 module.exports = router;
 
@@ -66,7 +66,8 @@ module.exports = router;
  * @apiParam {String} [contentItem.author] ContentItem author
  * @apiParam {String} [contentItem.content] ContentItem html content
  * @apiParam {String} [contentItem.description] ContentItem description
- * @apiParam {String} [contentItem.postType] ContentItem post type. This field is meant to be used as a deliminator for different kinds of posts. For example if you had a news site the options could be 'sports', 'weather', and 'politics'
+ * @apiParam {String} [contentItem.postType] ContentItem post type. This field is meant to be used as a
+ * deliminator for different kinds of posts. For example if you had a news site the options could be 'sports', 'weather', and 'politics'
  * @apiParam {String} [contentItem.subtitle] ContentItem subtitle
  * @apiParam {String} [contentItem.title] ContentItem title
  * @apiExample Example Post Request body:

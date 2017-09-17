@@ -28,7 +28,7 @@ function extractResourceObject(item) {
   
   return {
     'type': 'ContentItem',
-    'id': item._id,
+    'id': item._id.toString(),
     'attributes': contentItem
   };
 }
@@ -38,13 +38,14 @@ function extractResourceObject(item) {
  * @function sortResourceObjects
  * @param items {Object[]} an array of resource objects to sort
  * @param query {String} the string to use as a value to sort by
- * @return {Array<Object>} an array of resorce objects sorted by the number of occurrences of the query string in each
+ * @return {Array<Object>} an array of resource objects sorted by the number of occurrences of the query string in each
  */
 
 function sortResourceObjects(items, query) {
   const queryRegEx = new RegExp(query.toLowerCase(), 'g');
+  const contentItemsWithQueryScores = [];
   
-  const contentItemsWithQueryScores = items.map(item => {
+  items.forEach(item => {
     const contentItem = extractResourceObject(item);
     
     const contentMatches = contentItem.attributes.content ? (contentItem.attributes.content.toLowerCase()
@@ -60,7 +61,7 @@ function sortResourceObjects(items, query) {
     
     contentItem.queryScore = contentMatches + titleMatches + descriptionMatches + authorMatches + subtitleMatches;
     
-    return contentItem;
+    if (contentItem.queryScore > 0) contentItemsWithQueryScores.push(contentItem);
   });
   
   return contentItemsWithQueryScores.sort((a, b) => {
@@ -78,38 +79,56 @@ function sortResourceObjects(items, query) {
 
 function getContentItems(req, res, next) {
   
-  ContentItem.find({}, (err, contentItems) => {
-    if (err) {
-      next(err);
-    } else if (contentItems.length) {
-      let responseData;
-      const limit = req.query ? +req.query.limit : NaN;
-      if (req.query && req.query.q) {
-        responseData = sortResourceObjects(contentItems, req.query.q);
+  ContentItem.find({})
+    .sort({uniqueTitleKey: 'asc'})
+    .exec((err, contentItems) => {
+      if (err) {
+        next(err);
+      } else if (contentItems.length) {
+        let responseData;
+        const limit = req.query ? +req.query.limit : NaN;
+        
+        if (req.query && req.query.q) {
+          responseData = sortResourceObjects(contentItems, req.query.q);
+        } else {
+          responseData = contentItems.map(item => {
+            return extractResourceObject(item);
+          });
+        }
+        
+        if (!isNaN(limit)) {
+          const index = !isNaN(+req.query.index) ? +req.query.index : 0;
+          // const itemsLeft = contentItems.length - index;
+          // limit = limit < itemsLeft ? limit : itemsLeft;
+          req.responseData = {
+            status: 200,
+            data: responseData.slice(index, index + limit),
+            meta: {
+              totalItems: contentItems.length
+            }
+          };
+          next();
+        } else {
+          req.responseData = {
+            status: 200,
+            data: responseData,
+            meta: {
+              totalItems: responseData.length
+            }
+          };
+          next();
+        }
       } else {
-        responseData = contentItems.map(item => {
-          return extractResourceObject(item);
-        });
-      }
-      
-      if (!isNaN(limit)) {
-        req.responseData = responseData.slice(0, Math.ceil(req.query.limit));
-        next();
-      } else {
-        req.responseData = responseData;
+        req.responseData = {
+          data: [],
+          meta: {
+            totalItems: 0
+          }
+        };
+        
         next();
       }
-    } else {
-      req.responseData = {
-        errors: [{
-          error: 'sorry we could not find anything',
-          status: 404
-        }]
-      };
-      
-      next();
-    }
-  });
+    });
 }
 
 module.exports = getContentItems;
