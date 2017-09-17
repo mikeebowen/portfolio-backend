@@ -7,9 +7,10 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "docs": "./node_modules/.bin/rimraf out_apidoc/ out/ && ./node_modules/.bin/apidoc -i api/ -o out_apidoc/ && ./node_modules/.bin/jsdoc api/ lib/ -r README.md",
     "start": "node server.js",
-    "test": "nyc ./node_modules/.bin/mocha --recursive api/**/*.test.js lib/**/*.test.js local_modules/**/*.test.js && nyc report --reporter=text-lcov | coveralls -service = travis-ci",
+    "test": "nyc ./node_modules/.bin/mocha --recursive api/**/**/**/*.test.js lib/**/**/**/*.test.js && nyc report --reporter=text-lcov | coveralls -service = travis-ci",
     "mongod": "./node_modules/.bin/mongod --dbpath=./data",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "mochaTest": "./node_modules/.bin/mocha --recursive api/**/*.test.js lib/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -44,12 +45,14 @@
     "eslint": "^4.3.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "faker": "^4.1.0",
     "jsdoc": "^3.5.3",
     "mocha": "^3.4.2",
     "mockgoose": "^7.3.3",
     "nyc": "^11.1.0",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
-    "sinon": "^2.4.1"
+    "sinon": "^2.4.1",
+    "sinon-mongoose": "^2.0.2"
   }
 }
