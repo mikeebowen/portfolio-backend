@@ -51,6 +51,10 @@ const contentItemSchema = mongoose.Schema({
     type: String,
     default: Date.now().toString()
   },
+  createdAt: {
+    type: Date,
+    default: new Date()
+  },
   uniqueTitle: String
 });
 
