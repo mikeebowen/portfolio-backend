@@ -197,7 +197,7 @@ describe('getMultipleContentItems', function () {
     sinon.mock(ContentItem)
       .expects('find')
       //eslint-disable-next-line newline-per-chained-call
-      .chain('sort').withArgs({uniqueTitleKey: 'asc'})
+      .chain('sort').withArgs({createdAt: 'desc'})
       .chain('exec')
       .yields(testError);
     

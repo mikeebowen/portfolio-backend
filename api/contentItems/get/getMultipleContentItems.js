@@ -23,7 +23,8 @@ function extractResourceObject(item) {
     postType: item.postType,
     subtitle: item.subtitle,
     uniqueTitle: item.uniqueTitle,
-    title: item.title
+    title: item.title,
+    createdAt: item.createdAt.toString()
   };
   
   return {
@@ -80,7 +81,7 @@ function sortResourceObjects(items, query) {
 function getContentItems(req, res, next) {
   
   ContentItem.find({})
-    .sort({uniqueTitleKey: 'asc'})
+    .sort({createdAt: 'desc'})
     .exec((err, contentItems) => {
       if (err) {
         next(err);
