@@ -89,8 +89,8 @@ function getContentItems(req, res, next) {
         let responseData;
         const limit = req.query ? +req.query.limit : NaN;
         
-        if (req.query && req.query.q) {
-          responseData = sortResourceObjects(contentItems, req.query.q);
+        if (req.query && req.query.searchTerm) {
+          responseData = sortResourceObjects(contentItems, req.query.searchTerm);
         } else {
           responseData = contentItems.map(item => {
             return extractResourceObject(item);
@@ -99,13 +99,11 @@ function getContentItems(req, res, next) {
         
         if (!isNaN(limit)) {
           const index = !isNaN(+req.query.index) ? +req.query.index : 0;
-          // const itemsLeft = contentItems.length - index;
-          // limit = limit < itemsLeft ? limit : itemsLeft;
           req.responseData = {
             status: 200,
             data: responseData.slice(index, index + limit),
             meta: {
-              totalItems: contentItems.length
+              totalItems: responseData.length
             }
           };
           next();
