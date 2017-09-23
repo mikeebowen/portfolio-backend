@@ -51,12 +51,9 @@ const contentItemSchema = mongoose.Schema({
     type: String,
     default: Date.now().toString()
   },
-  createdAt: {
-    type: Date,
-    default: new Date()
-  },
   uniqueTitle: String
-});
+},
+  {timestamps: true});
 
 // Define a pre-save method for contentItemSchema
 contentItemSchema.pre('save', function (next) {

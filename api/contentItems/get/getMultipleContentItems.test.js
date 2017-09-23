@@ -99,7 +99,7 @@ describe('getMultipleContentItems', function () {
   it('should return all matching items sorted by relevance if req.query.q is provided, but req.query.limit is not provided', function (done) {
     const req = {
       query: {
-        q: 'taco'
+        searchTerm: 'taco'
       }
     };
     
@@ -117,7 +117,7 @@ describe('getMultipleContentItems', function () {
   it('should return the number of content items set in limit, sorted by relevance, if req.query.limit and req.query.q are provided', function (done) {
     const req = {
       query: {
-        q: 'taco',
+        searchTerm: 'taco',
         limit: '2'
       }
     };
@@ -154,7 +154,7 @@ describe('getMultipleContentItems', function () {
     
     const req = {
       query: {
-        q: 'pizza'
+        searchTerm: 'pizza'
       }
     };
     
