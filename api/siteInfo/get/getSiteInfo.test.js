@@ -43,58 +43,46 @@ describe('getSiteInfo', function () {
     
     Promise.all(promiseArray)
       .then((pageInfos) => {
-        const req = {
-          query: {
-            pageName: 'homepage'
+        const req = {};
+        const testItem1 = {
+          type: 'SiteInfo',
+          id: pageInfos[0]._id.toString(),
+          attributes: {
+            siteTitle: pageInfos[0].siteTitle,
+            pageContent: pageInfos[0].pageContent,
+            pageName: pageInfos[0].pageName
           }
         };
-        const testItem = {
-          siteTitle: pageInfos[0].siteTitle,
-          pageContent: pageInfos[0].pageContent,
-          pageName: pageInfos[0].pageName
+        const testItem2 = {
+          type: 'SiteInfo',
+          id: pageInfos[1]._id.toString(),
+          attributes: {
+            siteTitle: pageInfos[1].siteTitle,
+            pageContent: pageInfos[1].pageContent,
+            pageName: pageInfos[1].pageName
+          }
         };
         const testResponseData = {
-          data: {
-            type: 'SiteInfo',
-            id: pageInfos[0]._id.toString(),
-            attributes: testItem
-          },
+          data: [testItem1, testItem2],
           status: 200
         };
         
         getSiteInfo(req, {}, (err) => {
-          expect(JSON.stringify(req.responseData)).to.deep.equal(JSON.stringify(testResponseData));
+          expect(JSON.stringify(req.responseData))
+            .to
+            .deep
+            .equal(JSON.stringify(testResponseData));
           done(err);
         });
       })
       .catch(err => done(err));
   });
   
-  it('should return a not found error and status 404 when content item is not found', function (done) {
-    
-    const req = {
-      query: {
-        pageName: 'not-a-real-page-name'
-      }
-    };
-    const testError = {
-      errors: [{
-        error: `sorry we couldn't find info for ${req.query.pageName}`,
-        status: 404
-      }]
-    };
-    
-    getSiteInfo(req, {}, () => {
-      expect(req.responseData).to.deep.equal(testError);
-      done();
-    });
-  });
-  
   it('should call the next with error if mongo returns an error', function (done) {
     const testError = 'not a real error';
     const nextSpy = sinon.spy();
     const ContentItemStub = {
-      findOne: (query, callback) => {
+      find: (query, callback) => {
         callback(testError);
       }
     };
@@ -110,7 +98,9 @@ describe('getSiteInfo', function () {
     };
     
     getSiteInfo(req, {}, nextSpy);
-    expect(nextSpy.calledWith(testError), 'next not correctly called with error').to.equal(true);
+    expect(nextSpy.calledWith(testError), 'next not correctly called with error')
+      .to
+      .equal(true);
     done();
   });
   

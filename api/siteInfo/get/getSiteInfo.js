@@ -2,24 +2,30 @@
 
 const SiteInfo = require('../models/SiteInfo');
 
+function extractSiteInfoItems(arr) {
+  return arr.map(elem => {
+    return {
+      type: 'SiteInfo',
+      id: elem._id.toString(),
+      attributes: {
+        siteTitle: elem.siteTitle,
+        pageContent: elem.pageContent,
+        pageName: elem.pageName
+      }
+    };
+  });
+}
+
 function getSiteInfo(req, res, next) {
   
-  SiteInfo.findOne({pageName: req.query.pageName}, (err, pageInfo) => {
+  SiteInfo.find({}, (err, siteInfo) => {
     if (err) {
       next(err);
-    } else if (pageInfo) {
-      const siteInfo = {
-        siteTitle: pageInfo.siteTitle,
-        pageContent: pageInfo.pageContent,
-        pageName: pageInfo.pageName
-      };
+    } else if (siteInfo) {
+      const siteInfoTrimmed = extractSiteInfoItems(siteInfo);
       
       req.responseData = {
-        data: {
-          type: 'SiteInfo',
-          id: pageInfo._id.toString(),
-          attributes: siteInfo
-        },
+        data: siteInfoTrimmed,
         status: 200
       };
       
