@@ -8,9 +8,9 @@ function extractSiteInfoItems(arr) {
       type: 'SiteInfo',
       id: elem._id.toString(),
       attributes: {
-        siteTitle: elem.siteTitle,
         pageContent: elem.pageContent,
-        pageName: elem.pageName
+        pageType: elem.pageType,
+        pageTitle: elem.pageTitle
       }
     };
   });
@@ -33,7 +33,7 @@ function getSiteInfo(req, res, next) {
     } else {
       req.responseData = {
         errors: [{
-          error: `sorry we couldn't find info for ${req.query.pageName}`,
+          error: 'sorry there was an error retrieving the page information',
           status: 404
         }]
       };

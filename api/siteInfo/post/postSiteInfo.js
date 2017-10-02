@@ -16,7 +16,7 @@ function postSiteInfo(req, res, next) {
           'data': {
             'type': 'Message',
             'attributes': {
-              'message': `${newSiteInfo.pageName} info successfully created`
+              'message': `${newSiteInfo.pageTitle} info successfully created`
             }
           },
           'status': 201

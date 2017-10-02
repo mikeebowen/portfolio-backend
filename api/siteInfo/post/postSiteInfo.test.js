@@ -28,16 +28,16 @@ describe('postSiteInfo', function () {
   
   it('should save a new PageInfo document and ignore extra values and call next', function (done) {
     const testSiteInfo = {
-      pageName: 'homepage',
-      siteTitle: 'tacobell',
+      pageType: 'homepage',
+      pageTitle: 'tacobell',
       pageContent: 'blah blah',
       shouldIgnorethis: 'this should be  missing',
       andThis: 'this also should be missing'
     };
     
     const trimmedSiteInfo = {
-      pageName: testSiteInfo.pageName,
-      siteTitle: testSiteInfo.siteTitle,
+      pageType: testSiteInfo.pageType,
+      pageTitle: testSiteInfo.pageTitle,
       pageContent: testSiteInfo.pageContent,
     };
     
@@ -54,15 +54,15 @@ describe('postSiteInfo', function () {
         'data': {
           'type': 'Message',
           'attributes': {
-            'message': 'homepage info successfully created'
+            'message': 'tacobell info successfully created'
           }
         },
         'status': 201
       });
       
       SiteInfo.findOne({author: testSiteInfo.author}).then(foundContentItem => {
-        expect(foundContentItem.pageName).to.equal(trimmedSiteInfo.pageName);
-        expect(foundContentItem.siteTitle).to.equal(trimmedSiteInfo.siteTitle);
+        expect(foundContentItem.pageType).to.equal(trimmedSiteInfo.pageType);
+        expect(foundContentItem.pageTitle).to.equal(trimmedSiteInfo.pageTitle);
         expect(foundContentItem.pageContent).to.equal(trimmedSiteInfo.pageContent);
         expect(foundContentItem.shouldIgnorethis).to.not.exist;
         expect(foundContentItem.andThis).to.not.exist;
@@ -75,14 +75,14 @@ describe('postSiteInfo', function () {
   
   it('should save a new PageInfo document and sanitize html content then call next', function (done) {
     const testSiteInfo = {
-      pageName: '<p>homepage</p>',
-      siteTitle: '<div>tacobell</div>',
+      pageType: '<p>homepage</p>',
+      pageTitle: '<div>tacobell</div>',
       pageContent: '<a>blah blah</a>'
     };
     
     const trimmedSiteInfo = {
-      pageName: 'homepage',
-      siteTitle: 'tacobell',
+      pageType: 'homepage',
+      pageTitle: 'tacobell',
       pageContent: 'blah blah'
     };
     
@@ -99,15 +99,15 @@ describe('postSiteInfo', function () {
         'data': {
           'type': 'Message',
           'attributes': {
-            'message': 'homepage info successfully created'
+            'message': 'tacobell info successfully created'
           }
         },
         'status': 201
       });
       
-      SiteInfo.findOne({pageName: 'homepage'}).then(foundSiteInfo => {
-        expect(foundSiteInfo.pageName).to.equal(trimmedSiteInfo.pageName);
-        expect(foundSiteInfo.siteTitle).to.equal(trimmedSiteInfo.siteTitle);
+      SiteInfo.findOne({pageType: 'homepage'}).then(foundSiteInfo => {
+        expect(foundSiteInfo.pageType).to.equal(trimmedSiteInfo.pageType);
+        expect(foundSiteInfo.pageTitle).to.equal(trimmedSiteInfo.pageTitle);
         expect(foundSiteInfo.pageContent).to.equal(trimmedSiteInfo.pageContent);
         
         done();

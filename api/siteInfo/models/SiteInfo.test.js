@@ -25,16 +25,16 @@ describe('SiteInfo Model', function () {
   
   it('should sanitize values of html', function (done) {
     const testSiteInfo = new SiteInfo({
-      siteTitle: '<p>Gulliver\'s Travels</p>',
+      pageTitle: '<p>Gulliver\'s Travels</p>',
       pageContent: '<h1>Hola Mundo</h1>',
-      pageName: '<div>test page</div>'
+      pageType: '<div>test page</div>'
     });
   
     testSiteInfo.save((err, item) => {
       expect(err).to.not.exist;
-      expect(item.siteTitle).to.equal('Gulliver\'s Travels');
+      expect(item.pageTitle).to.equal('Gulliver\'s Travels');
       expect(item.pageContent).to.equal('Hola Mundo');
-      expect(item.pageName).to.equal('test page');
+      expect(item.pageType).to.equal('test page');
       
       done();
     });

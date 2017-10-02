@@ -8,19 +8,19 @@ const sanitizeHtmlNoTagsConfig = {
 };
 
 const siteInfo = mongoose.Schema({
-  siteTitle: {
-    type: String,
-    set: (val) => {
-      return this.author = sanitizeHtml(val, sanitizeHtmlNoTagsConfig);
-    }
-  },
   pageContent: {
     type: String,
     set: (val) => {
       return this.content = sanitizeHtml(val, sanitizeHtmlNoTagsConfig);
     }
   },
-  pageName: {
+  pageTitle: {
+    type: String,
+    set: (val) => {
+      return this.content = sanitizeHtml(val, sanitizeHtmlNoTagsConfig);
+    }
+  },
+  pageType: {
     type: String,
     set: (val) => {
       return this.content = sanitizeHtml(val, sanitizeHtmlNoTagsConfig);
