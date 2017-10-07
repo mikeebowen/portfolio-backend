@@ -2,6 +2,7 @@
 .env
 /node_modules/
 /.idea/
+/.vscode/
 /.nyc_output
 /coverage
 /out
