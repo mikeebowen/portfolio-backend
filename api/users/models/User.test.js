@@ -8,7 +8,7 @@ const expect = require('chai').expect;
 
 const User = require('./User');
 
-describe.only('User Schema', () => {
+describe('User Schema', () => {
 
   before(function (done) {
     this.timeout(120000);
