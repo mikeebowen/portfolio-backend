@@ -73,7 +73,7 @@ describe('getMultipleContentItems', function () {
     const promiseArray = [testContent1.save(), testContent2.save(), testContent3.save(), testContent4.save(), testContent5.save()];
     
     Promise.all(promiseArray)
-      .then(data => done())
+      .then(() => done())
       .catch(err => done(err));
   });
   

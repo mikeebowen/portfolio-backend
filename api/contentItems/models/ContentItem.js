@@ -53,7 +53,7 @@ const contentItemSchema = mongoose.Schema({
   },
   uniqueTitle: String
 },
-  {timestamps: true});
+{timestamps: true});
 
 // Define a pre-save method for contentItemSchema
 contentItemSchema.pre('save', function (next) {

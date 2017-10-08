@@ -5,12 +5,14 @@
   "main": "server.js",
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "docs": "./node_modules/.bin/rimraf out_apidoc/ out/ && ./node_modules/.bin/apidoc -i api/ -o out_apidoc/ && ./node_modules/.bin/jsdoc api/ lib/ -r README.md",
-    "start": "node server.js",
-    "test": "nyc ./node_modules/.bin/mocha --recursive api/**/**/**/*.test.js lib/**/**/**/*.test.js && nyc report --reporter=text-lcov | coveralls -service = travis-ci",
-    "mongod": "./node_modules/.bin/mongod --dbpath=./data",
     "dev": "nodemon",
-    "mochaTest": "./node_modules/.bin/mocha --recursive api/**/*.test.js lib/**/*.test.js"
+    "lint": "./node_modules/.bin/eslint ./api/ --ext .js",
+    "docs": "./node_modules/.bin/rimraf out_apidoc/ out/ && ./node_modules/.bin/apidoc -i api/ -o out_apidoc/ && ./node_modules/.bin/jsdoc api/ lib/ -r README.md",
+    "just-tests": "./node_modules/.bin/mocha --recursive api/**/**/**/*.test.js lib/**/**/**/*.test.js",
+    "mochaTest": "./node_modules/.bin/mocha --recursive api/**/*.test.js lib/**/*.test.js",
+    "mongod": "./node_modules/.bin/mongod --dbpath=./data",
+    "start": "node server.js",
+    "test": "nyc ./node_modules/.bin/mocha --recursive api/**/**/**/*.test.js lib/**/**/**/*.test.js && nyc report --reporter=text-lcov | coveralls -service = travis-ci"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,8 @@
     "moment": "^2.18.1",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.4",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
     "sanitize-html": "^1.14.1",
     "winston": "^2.3.1"
   },
@@ -43,7 +47,7 @@
     "apidoc": "^0.17.6",
     "chai": "^4.1.0",
     "coveralls": "^2.13.1",
-    "eslint": "^4.3.0",
+    "eslint": "^4.8.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "faker": "^4.1.0",

@@ -33,10 +33,8 @@ describe('User Schema', () => {
     
     User.create({
       userName: 'frodo',
-      basic: {
-        password: 'tacocat',
-        email: 'bob@tacos.com'
-      }
+      password: 'tacocat',
+      email: 'bob@tacos.com'
     }, (error, testUser) => {
       expect(error).to.not.exist;
       expect(testUser.userName).to.equal('frodo');

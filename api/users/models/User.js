@@ -17,30 +17,20 @@ const userSchema = mongoose.Schema({
     familyName: String,
     givenName: String
   },
-  basic: {
-    email: {
-      type: String,
-      unique: true
-    },
-    password: String
+  email: {
+    type: String,
+    unique: true
+  },
+  password: {
+    type: String,
+    set: (pw) => {
+      return bcrypt.hashSync(pw, 10);
+    }
   },
   contentItems: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ContentItem'
   }]
-});
-
-userSchema.pre('save', function (next) {
-  const pw = this.basic.password;
-  delete this.basic.password;
-  const user = this;
-  
-  bcrypt.hash(pw, 10)
-    .then(hash => {
-      user.basic.password = hash;
-      next();
-    })
-    .catch(error => next(error));
 });
 
 /**
@@ -51,7 +41,7 @@ userSchema.pre('save', function (next) {
  */
 
 userSchema.methods.checkPassword = function (pw, callback) {
-  bcrypt.compare(pw, this.basic.password)
+  bcrypt.compare(pw, this.password)
     .then((res) => callback(null, res))
     .catch((error) => callback(error));
 };
