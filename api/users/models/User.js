@@ -25,7 +25,8 @@ const userSchema = mongoose.Schema({
     type: String,
     set: (pw) => {
       return bcrypt.hashSync(pw, 10);
-    }
+    },
+    required: true
   },
   contentItems: [{
     type: mongoose.Schema.Types.ObjectId,

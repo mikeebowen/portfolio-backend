@@ -100,7 +100,7 @@ describe('postUser', function() {
     });
   });
 
-  it('should send an invalid parameters message if a user with the same userName already exitst', function(done) {
+  it('should send an invalid parameters message if a user with the same userName already exists', function(done) {
     const testUserToCreate = {
       userName: 'bob',
       password: 'tacocat',
@@ -122,19 +122,48 @@ describe('postUser', function() {
       postUser(req, {}, (error) => {
         expect(error).not.to.exist;
         expect(req.responseData.data.attributes.message)
-          .to.equal(`${req.body.user.userName} is already a user name in our database, please try a different user name`);
+          .to.equal(`Username ${req.body.user.userName} is not available`);
         done();
       });
     });
   });
 
-  it('should send an invalid parameters message if the a user with the same email already exitst', function(done) {
+  it('should send an invalid parameters message if a user with the same email and userName already exists', function(done) {
+    const testUserToCreate = {
+      userName: 'Ernesto',
+      password: 'tacocat',
+      email: 'ernesto@example.com'
+    };
+
+    User.create(testUserToCreate, (error) => {
+      expect(error).not.to.exist;
+      
+      const req = {
+        body: {
+          user: {
+            userName: 'Ernesto',
+            password: 'tacocat',
+            email: 'ernesto@example.com'
+          }
+        }
+      };
+
+      postUser(req, {}, (error) => {
+        expect(error).not.to.exist;
+        expect(req.responseData.data.attributes.message)
+          .to.equal(`Account already exists for userName: ${req.body.user.userName}, email: ${req.body.user.email}, please log in`);
+        done();
+      });
+    });
+  });
+  
+  it('should send an invalid parameters message if a user with the same email and email already exists', function(done) {
     const testUserToCreate = {
       userName: 'joe',
       password: 'tacocat',
       email: 'joseph@example.com'
     };
-
+    
     User.create(testUserToCreate, (error) => {
       expect(error).not.to.exist;
       const req = {
@@ -146,11 +175,11 @@ describe('postUser', function() {
           }
         }
       };
-
+      
       postUser(req, {}, (error) => {
         expect(error).not.to.exist;
         expect(req.responseData.data.attributes.message)
-          .to.equal(`${req.body.user.userName} is already a user name in our database, please try a different user name`);
+          .to.equal(`Account already exists for ${req.body.user.email}, please log in`);
         done();
       });
     });

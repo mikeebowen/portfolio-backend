@@ -20,11 +20,20 @@ function postUser (req, res, next) {
       if (error) {
         next(error);
       } else if (foundUser) {
+        let errorMessage;
+        
+        if (req.body.user.userName === foundUser.userName && req.body.user.email === foundUser.email) {
+          errorMessage = `Account already exists for userName: ${foundUser.userName}, email: ${foundUser.email}, please log in`;
+        } else if (req.body.user.userName === foundUser.userName && req.body.user.email !== foundUser.email) {
+          errorMessage = `Username ${foundUser.userName} is not available`;
+        } else if (req.body.user.userName !== foundUser.userName && req.body.user.email === foundUser.email) {
+          errorMessage = `Account already exists for ${foundUser.email}, please log in`;
+        }
         req.responseData = {
           data: {
             type: 'Message',
             attributes: {
-              message: `${req.body.user.userName} is already a user name in our database, please try a different user name`
+              message: errorMessage
             }
           },
           'status': 409
